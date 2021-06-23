@@ -1,7 +1,7 @@
-package structures.example;
+package structure.example;
 
 import data.Node;
-import structures.Stack;
+import structure.Stack;
 
 import java.util.HashMap;
 import java.util.HashSet;

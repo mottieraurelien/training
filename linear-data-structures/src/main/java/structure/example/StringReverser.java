@@ -1,6 +1,6 @@
-package structures.example;
+package structure.example;
 
-import structures.Stack;
+import structure.Stack;
 
 public class StringReverser {
 

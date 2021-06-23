@@ -1,8 +1,8 @@
-package structures.example;
+package structure.example;
 
-import structures.CircularArrayQueue;
-import structures.PriorityQueue;
-import structures.StackDynamicArray;
+import structure.CircularArrayQueue;
+import structure.PriorityQueue;
+import structure.StackDynamicArray;
 
 import java.util.Comparator;
 

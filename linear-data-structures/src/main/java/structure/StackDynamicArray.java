@@ -1,4 +1,4 @@
-package structures;
+package structure;
 
 import static java.util.Arrays.copyOf;
 

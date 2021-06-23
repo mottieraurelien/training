@@ -1,8 +1,7 @@
 package structure.example;
 
-import structures.CircularArrayQueue;
+import structure.CircularArrayQueue;
 import org.junit.jupiter.api.Test;
-import structures.example.QueueReverser;
 
 import java.util.Comparator;
 

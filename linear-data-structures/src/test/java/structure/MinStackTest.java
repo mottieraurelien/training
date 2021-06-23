@@ -1,7 +1,6 @@
 package structure;
 
 import org.junit.jupiter.api.Test;
-import structures.MinStack;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

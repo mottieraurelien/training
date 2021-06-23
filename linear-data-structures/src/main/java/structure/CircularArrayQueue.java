@@ -1,4 +1,4 @@
-package structures;
+package structure;
 
 public class CircularArrayQueue<T> {
 

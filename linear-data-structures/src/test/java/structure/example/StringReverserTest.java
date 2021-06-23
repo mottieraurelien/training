@@ -1,7 +1,6 @@
 package structure.example;
 
 import org.junit.jupiter.api.Test;
-import structures.example.StringReverser;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

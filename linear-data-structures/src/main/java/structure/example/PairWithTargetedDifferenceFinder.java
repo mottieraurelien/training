@@ -1,4 +1,4 @@
-package structures.example;
+package structure.example;
 
 import data.Pair;
 

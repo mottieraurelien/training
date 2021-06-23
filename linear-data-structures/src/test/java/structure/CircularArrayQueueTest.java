@@ -1,7 +1,6 @@
 package structure;
 
 import org.junit.jupiter.api.Test;
-import structures.CircularArrayQueue;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;

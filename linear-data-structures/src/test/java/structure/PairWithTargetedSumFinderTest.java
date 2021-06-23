@@ -1,6 +1,6 @@
 package structure;
 
-import structures.example.PairWithTargetedSumFinder;
+import structure.example.PairWithTargetedSumFinder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

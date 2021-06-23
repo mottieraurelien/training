@@ -1,4 +1,4 @@
-package structures.example;
+package structure.example;
 
 import java.util.HashSet;
 import java.util.Set;

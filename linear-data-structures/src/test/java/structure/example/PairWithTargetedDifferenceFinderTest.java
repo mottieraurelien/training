@@ -2,7 +2,6 @@ package structure.example;
 
 import data.Pair;
 import org.junit.jupiter.api.Test;
-import structures.example.PairWithTargetedDifferenceFinder;
 
 import java.util.Set;
 

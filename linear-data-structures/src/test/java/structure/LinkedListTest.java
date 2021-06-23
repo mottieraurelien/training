@@ -2,7 +2,6 @@ package structure;
 
 import data.Node;
 import org.junit.jupiter.api.Test;
-import structures.LinkedList;
 
 import java.util.NoSuchElementException;
 
