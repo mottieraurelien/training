@@ -1,4 +1,4 @@
-package kata.structures;
+package structures;
 
 import static java.util.Arrays.copyOf;
 

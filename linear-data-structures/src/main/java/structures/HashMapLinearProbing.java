@@ -1,12 +1,12 @@
-package kata.structures;
+package structures;
 
-import kata.data.Entry;
+import data.Entry;
 
 import java.util.function.Function;
 
 import static java.lang.reflect.Array.newInstance;
 import static java.util.Arrays.copyOf;
-import static kata.data.Entry.of;
+import static data.Entry.of;
 
 public class HashMapLinearProbing<K, V> {
 

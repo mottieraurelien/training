@@ -1,11 +1,12 @@
 package kata.structures.example;
 
-import kata.data.Pair;
+import data.Pair;
 import org.junit.jupiter.api.Test;
+import structures.example.PairWithTargetedDifferenceFinder;
 
 import java.util.Set;
 
-import static kata.data.Pair.of;
+import static data.Pair.of;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class PairWithTargetedDifferenceFinderTest {

@@ -1,7 +1,7 @@
-package kata.structures.example;
+package structures.example;
 
-import kata.data.Node;
-import kata.structures.Stack;
+import data.Node;
+import structures.Stack;
 
 import java.util.HashMap;
 import java.util.HashSet;

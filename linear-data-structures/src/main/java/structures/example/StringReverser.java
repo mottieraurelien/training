@@ -1,6 +1,6 @@
-package kata.structures.example;
+package structures.example;
 
-import kata.structures.Stack;
+import structures.Stack;
 
 public class StringReverser {
 

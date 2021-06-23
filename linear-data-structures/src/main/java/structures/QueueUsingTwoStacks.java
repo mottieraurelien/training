@@ -1,6 +1,6 @@
-package kata.structures;
+package structures;
 
-import kata.data.Node;
+import data.Node;
 
 public class QueueUsingTwoStacks<T> {
 

@@ -1,11 +1,11 @@
-package kata.structures;
+package structures;
 
-import kata.data.Entry;
+import data.Entry;
 
 import java.util.function.Function;
 
 import static java.lang.reflect.Array.newInstance;
-import static kata.data.Entry.of;
+import static data.Entry.of;
 
 /**
  * HashMap implementation using the chaining technique to handle collisions.

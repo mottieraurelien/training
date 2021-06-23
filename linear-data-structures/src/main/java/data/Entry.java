@@ -1,4 +1,4 @@
-package kata.data;
+package data;
 
 public class Entry<K, V> {
 

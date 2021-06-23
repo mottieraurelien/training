@@ -1,4 +1,4 @@
-package kata.data;
+package data;
 
 import java.util.Objects;
 

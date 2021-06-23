@@ -1,4 +1,4 @@
-package kata.structures.example;
+package structures.example;
 
 import java.util.HashMap;
 import java.util.Map;

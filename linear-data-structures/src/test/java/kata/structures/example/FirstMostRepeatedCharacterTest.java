@@ -1,6 +1,7 @@
 package kata.structures.example;
 
 import org.junit.jupiter.api.Test;
+import structures.example.FirstMostRepeatedCharacter;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

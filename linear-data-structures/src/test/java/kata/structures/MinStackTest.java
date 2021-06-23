@@ -1,6 +1,7 @@
 package kata.structures;
 
 import org.junit.jupiter.api.Test;
+import structures.MinStack;
 
 import static org.assertj.core.api.Assertions.assertThat;
 

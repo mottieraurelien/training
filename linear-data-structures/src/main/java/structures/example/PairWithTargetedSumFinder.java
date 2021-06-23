@@ -1,4 +1,4 @@
-package kata.structures.example;
+package structures.example;
 
 import static java.util.Arrays.sort;
 

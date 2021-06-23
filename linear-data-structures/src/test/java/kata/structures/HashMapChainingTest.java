@@ -1,6 +1,7 @@
 package kata.structures;
 
 import org.junit.jupiter.api.Test;
+import structures.HashMapChaining;
 
 import java.util.function.Function;
 

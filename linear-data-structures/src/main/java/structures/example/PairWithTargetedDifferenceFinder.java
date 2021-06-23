@@ -1,12 +1,12 @@
-package kata.structures.example;
+package structures.example;
 
-import kata.data.Pair;
+import data.Pair;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import static java.util.Arrays.sort;
-import static kata.data.Pair.of;
+import static data.Pair.of;
 
 public class PairWithTargetedDifferenceFinder<T extends Number> {
 

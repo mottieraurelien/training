@@ -1,4 +1,4 @@
-package kata.structures;
+package structures;
 
 public class BiStack<T> {
 

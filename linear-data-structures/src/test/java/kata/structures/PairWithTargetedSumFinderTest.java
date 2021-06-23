@@ -1,6 +1,6 @@
 package kata.structures;
 
-import kata.structures.example.PairWithTargetedSumFinder;
+import structures.example.PairWithTargetedSumFinder;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

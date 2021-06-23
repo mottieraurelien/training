@@ -1,7 +1,8 @@
 package kata.structures.example;
 
-import kata.structures.CircularArrayQueue;
+import structures.CircularArrayQueue;
 import org.junit.jupiter.api.Test;
+import structures.example.QueueReverser;
 
 import java.util.Comparator;
 

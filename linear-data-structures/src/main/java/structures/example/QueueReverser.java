@@ -1,8 +1,8 @@
-package kata.structures.example;
+package structures.example;
 
-import kata.structures.CircularArrayQueue;
-import kata.structures.PriorityQueue;
-import kata.structures.StackDynamicArray;
+import structures.CircularArrayQueue;
+import structures.PriorityQueue;
+import structures.StackDynamicArray;
 
 import java.util.Comparator;
 

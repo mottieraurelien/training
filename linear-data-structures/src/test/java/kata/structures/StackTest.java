@@ -1,7 +1,8 @@
 package kata.structures;
 
-import kata.data.Node;
+import data.Node;
 import org.junit.jupiter.api.Test;
+import structures.Stack;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
