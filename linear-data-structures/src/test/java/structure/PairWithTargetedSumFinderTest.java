@@ -1,4 +1,4 @@
-package kata.structures;
+package structure;
 
 import structures.example.PairWithTargetedSumFinder;
 import org.junit.jupiter.api.Test;

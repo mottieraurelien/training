@@ -1,23 +1,23 @@
-package kata.structures.example;
+package structure.example;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
-import structures.example.FirstRepeatedCharacterFinder;
+import structures.example.FirstUniqueCharacterFinder;
 
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.of;
 
-class FirstRepeatedCharacterTest {
+class FirstUniqueCharacterFinderTest {
 
     @ParameterizedTest
     @MethodSource("scenarios")
-    void should_return_the_first_repeated_character(final String input, final Character expected) {
+    void should_return_the_first_unique_character(final String input, final Character expected) {
 
         // [Arrange]
-        final FirstRepeatedCharacterFinder finder = new FirstRepeatedCharacterFinder(input);
+        final FirstUniqueCharacterFinder finder = new FirstUniqueCharacterFinder(input);
 
         // [Act]
         final Character actual = finder.find();
@@ -30,10 +30,9 @@ class FirstRepeatedCharacterTest {
     @SuppressWarnings("unused")
     private static Stream<Arguments> scenarios() {
         return Stream.of(
-                of("atest", 't'),
-                of("ssoisworking", 's'),
-                of("blablabla", 'b'),
-                of("malitzschkendorf", null)
+                of("atest", 'a'),
+                of("ssoisworking", 'w'),
+                of("blablabla", null)
         );
     }
 

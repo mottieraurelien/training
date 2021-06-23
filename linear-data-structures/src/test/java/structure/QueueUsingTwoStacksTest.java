@@ -1,4 +1,4 @@
-package kata.structures;
+package structure;
 
 import org.junit.jupiter.api.Test;
 import structures.QueueUsingTwoStacks;

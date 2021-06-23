@@ -1,4 +1,4 @@
-package kata.structures.example;
+package structure.example;
 
 import data.Pair;
 import org.junit.jupiter.api.Test;
