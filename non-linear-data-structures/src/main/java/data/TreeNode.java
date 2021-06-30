@@ -1,42 +1,60 @@
 package data;
 
-public class TreeNode<T> {
+public class TreeNode<T extends Comparable<T>> {
 
     private final T value;
 
-    private TreeNode<T> left;
-    private TreeNode<T> right;
+    private TreeNode<T> leftChild;
+    private TreeNode<T> rightChild;
 
     public TreeNode(final T value) {
         this.value = value;
     }
 
-    public void left(final TreeNode<T> left) {
-        this.left = left;
+    public TreeNode<T> getLeftChild() {
+        return this.leftChild;
     }
 
-    public void right(final TreeNode<T> right) {
-        this.right = right;
+    public TreeNode<T> getRightChild() {
+        return this.rightChild;
     }
 
-    public TreeNode<T> getLeft() {
-        return this.left;
+    public void setLeftChild(final TreeNode<T> left) {
+        this.leftChild = left;
     }
 
-    public TreeNode<T> getRight() {
-        return this.right;
+    public void setRightChild(final TreeNode<T> right) {
+        this.rightChild = right;
     }
 
-    public boolean leftEmpty() {
-        return this.left == null;
+    public boolean leftChildIsNull() {
+        return this.leftChild == null;
     }
 
-    public boolean rightEmpty() {
-        return this.right == null;
+    public boolean rightChildIsNull() {
+        return this.rightChild == null;
+    }
+
+    public boolean hasLeftChild() {
+        return !this.leftChildIsNull();
+    }
+
+    public boolean hasRightChild() {
+        return !this.rightChildIsNull();
+    }
+
+    public boolean isLeaf() {
+        return this.leftChildIsNull() && this.rightChildIsNull();
     }
 
     public T getValue() {
         return this.value;
+    }
+
+    public boolean equals(final TreeNode<T> anotherTreeNode) {
+        final T value = this.value;
+        final T anotherValue = anotherTreeNode.getValue();
+        return value.compareTo(anotherValue) == 0;
     }
 
 }
