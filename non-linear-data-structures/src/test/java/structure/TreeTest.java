@@ -828,6 +828,32 @@ class TreeTest {
 
     }
 
+    @Test
+    void should_swap_left_children_with_right_children_when_reversing_a_whole_binary_tree() {
+
+        // [Arrange]
+        final Integer rootValue = 20;
+        final TreeNode<Integer> root = new TreeNode<>(rootValue);
+        final Tree<Integer> tree = new Tree<>(root);
+        tree.insert(10);
+        tree.insert(30);
+        tree.insert(6);
+        tree.insert(14);
+        tree.insert(24);
+        tree.insert(3);
+        tree.insert(8);
+        tree.insert(26);
+
+        // [Act]
+        tree.reverse(root);
+
+        // [Assert]
+        assertThat(root.getValue()).isEqualTo(20);
+        assertLeftReversedBranch(root);
+        assertRightReversedBranch(root);
+
+    }
+
     private Tree<Integer> build(final TreeNode<Integer> root) {
         final Tree<Integer> tree = new Tree<>(root);
         tree.insert(10);
@@ -861,9 +887,11 @@ class TreeTest {
     private void assertLeftBranch(final TreeNode<Integer> root) {
 
         final TreeNode<Integer> childFive = root.getLeftChild();
+        assertThat(childFive).isNotNull();
         assertThat(childFive.getValue()).isEqualTo(5);
 
         final TreeNode<Integer> childOne = childFive.getLeftChild();
+        assertThat(childOne).isNotNull();
         assertThat(childOne.getValue()).isEqualTo(1);
         final TreeNode<Integer> childOneLeftNull = childOne.getLeftChild();
         assertThat(childOneLeftNull).isNull();
@@ -871,11 +899,13 @@ class TreeTest {
         assertThat(childOneRightNull).isNull();
 
         final TreeNode<Integer> childSix = childFive.getRightChild();
+        assertThat(childSix).isNotNull();
         assertThat(childSix.getValue()).isEqualTo(6);
         final TreeNode<Integer> childSixLeftNull = childSix.getLeftChild();
         assertThat(childSixLeftNull).isNull();
 
         final TreeNode<Integer> childEight = childSix.getRightChild();
+        assertThat(childEight).isNotNull();
         assertThat(childEight.getValue()).isEqualTo(8);
         final TreeNode<Integer> childEightLeftNull = childEight.getLeftChild();
         assertThat(childEightLeftNull).isNull();
@@ -890,9 +920,11 @@ class TreeTest {
     private void assertRightBranch(final TreeNode<Integer> root) {
 
         final TreeNode<Integer> childFifteen = root.getRightChild();
+        assertThat(childFifteen).isNotNull();
         assertThat(childFifteen.getValue()).isEqualTo(15);
 
         final TreeNode<Integer> childTwelve = childFifteen.getLeftChild();
+        assertThat(childTwelve).isNotNull();
         assertThat(childTwelve.getValue()).isEqualTo(12);
         final TreeNode<Integer> childTwelveLeftNull = childTwelve.getLeftChild();
         assertThat(childTwelveLeftNull).isNull();
@@ -900,16 +932,76 @@ class TreeTest {
         assertThat(childTwelveRightNull).isNull();
 
         final TreeNode<Integer> childEighteen = childFifteen.getRightChild();
+        assertThat(childEighteen).isNotNull();
         assertThat(childEighteen.getValue()).isEqualTo(18);
         final TreeNode<Integer> childEighteenRightNull = childEighteen.getRightChild();
         assertThat(childEighteenRightNull).isNull();
 
         final TreeNode<Integer> childSeventeen = childEighteen.getLeftChild();
+        assertThat(childSeventeen).isNotNull();
         assertThat(childSeventeen.getValue()).isEqualTo(17);
         final TreeNode<Integer> childSeventeenLeftNull = childSeventeen.getLeftChild();
         assertThat(childSeventeenLeftNull).isNull();
         final TreeNode<Integer> childSeventeenRightNull = childSeventeen.getRightChild();
         assertThat(childSeventeenRightNull).isNull();
+
+    }
+
+    /**
+     * Asserts focused on the left reversed branch only of our BST.
+     */
+    private void assertLeftReversedBranch(final TreeNode<Integer> root) {
+
+        final TreeNode<Integer> childThirty = root.getLeftChild();
+        assertThat(childThirty).isNotNull();
+        assertThat(childThirty.getValue()).isEqualTo(30);
+
+        final TreeNode<Integer> leftChildThirty = childThirty.getLeftChild();
+        assertThat(leftChildThirty).isNull();
+
+        final TreeNode<Integer> childTwentyFour = childThirty.getRightChild();
+        assertThat(childTwentyFour).isNotNull();
+        assertThat(childTwentyFour.getValue()).isEqualTo(24);
+
+        final TreeNode<Integer> childTwentySix = childTwentyFour.getLeftChild();
+        assertThat(childTwentySix).isNotNull();
+        assertThat(childTwentySix.getValue()).isEqualTo(26);
+
+        final TreeNode<Integer> rightChildTwentyFour = childTwentyFour.getRightChild();
+        assertThat(rightChildTwentyFour).isNull();
+
+    }
+
+    /**
+     * Asserts focused on the right reversed branch only of our BST.
+     */
+    private void assertRightReversedBranch(final TreeNode<Integer> root) {
+
+        final TreeNode<Integer> childTen = root.getRightChild();
+        assertThat(childTen).isNotNull();
+        assertThat(childTen.getValue()).isEqualTo(10);
+
+        final TreeNode<Integer> childFourteen = childTen.getLeftChild();
+        assertThat(childFourteen).isNotNull();
+        assertThat(childFourteen.getValue()).isEqualTo(14);
+
+        final TreeNode<Integer> leftChildFourteen = childFourteen.getLeftChild();
+        assertThat(leftChildFourteen).isNull();
+
+        final TreeNode<Integer> rightChildFourteen = childFourteen.getRightChild();
+        assertThat(rightChildFourteen).isNull();
+
+        final TreeNode<Integer> childSix = childTen.getRightChild();
+        assertThat(childSix).isNotNull();
+        assertThat(childSix.getValue()).isEqualTo(6);
+
+        final TreeNode<Integer> childEight = childSix.getLeftChild();
+        assertThat(childEight).isNotNull();
+        assertThat(childEight.getValue()).isEqualTo(8);
+
+        final TreeNode<Integer> childThree = childSix.getRightChild();
+        assertThat(childThree).isNotNull();
+        assertThat(childThree.getValue()).isEqualTo(3);
 
     }
 

@@ -330,6 +330,20 @@ public class Tree<T extends Comparable<T>> {
         this.getAncestors(node.getRightChild(), value, ancestors);
     }
 
+    public void reverse(final TreeNode<T> node) {
+
+        if (node == null) return;
+
+        final TreeNode<T> oldLeftChild = node.getLeftChild();
+        final TreeNode<T> oldRightChild = node.getRightChild();
+        node.setLeftChild(oldRightChild);
+        node.setRightChild(oldLeftChild);
+
+        this.reverse(node.getLeftChild());
+        this.reverse(node.getRightChild());
+
+    }
+
     /**
      * Checks if two trees are equal based on the DFS pre-order traversal.
      */
