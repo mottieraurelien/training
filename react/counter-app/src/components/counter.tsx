@@ -10,7 +10,7 @@ export default function Counter() {
     const [items, setItems] = useState([new Item(0, 0), new Item(1, 0), new Item(2, 0), new Item(3, 0)]);
     const sum = (subTotal: number, item: Item) => subTotal + item.quantity;
     const total = useMemo(() => items.reduce(sum, 0), [items]);
-// i want to set it on the left side, not right side like now :(
+
     /*
      * BEHAVIOUR
      */
