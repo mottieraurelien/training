@@ -5,13 +5,13 @@ export default function CounterLine({...props}) {
     /*
      * STATE
      */
-    const {key, item, remove, increment, decrement} = props;
+    const {item, remove, increment, decrement} = props;
 
     /*
      * RENDERING
      */
     return (
-        <div key={key}>
+        <div>
             <span className={item.format()}>{item.label()}</span>
             <button className="btn btn-secondary btn-sm m-1" onClick={() => increment(item)}>+</button>
             <button className="btn btn-secondary btn-sm m-1" onClick={() => decrement(item)} disabled={item.isDisabled()}>-</button>

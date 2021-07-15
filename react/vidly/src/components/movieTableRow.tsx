@@ -5,13 +5,13 @@ export default function MovieTableRow({...props}) {
     /*
      * STATE
      */
-    const {key, movie, remove} = props;
+    const {movie, remove} = props;
 
     /*
      * RENDERING
      */
     return (
-        <tr key={key}>
+        <tr>
             <td>{movie.title}</td>
             <td>{movie.genre.name}</td>
             <td>{movie.stock}</td>
