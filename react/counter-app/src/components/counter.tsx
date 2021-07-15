@@ -48,7 +48,8 @@ export default function Counter() {
                 <button className="btn btn-primary btn-sm m-2" onClick={() => reset()}>Reset</button>
                 <br/>
                 {items.map((item) => {
-                    return <CounterLine item={item}
+                    return <CounterLine key={item.id}
+                                        item={item}
                                         remove={remove}
                                         increment={increment}
                                         decrement={decrement}/>
