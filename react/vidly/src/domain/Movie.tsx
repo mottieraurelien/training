@@ -8,6 +8,7 @@ export default class Movie {
     stock: number;
     rate: number;
     publishDate: Date;
+    liked: boolean;
 
     constructor(movie: any) {
         this._id = movie["_id"];
@@ -16,6 +17,7 @@ export default class Movie {
         this.stock = movie["stock"];
         this.rate = movie["rate"];
         this.publishDate = movie["publishDate"];
+        this.liked = movie["liked"];
     }
 
 }

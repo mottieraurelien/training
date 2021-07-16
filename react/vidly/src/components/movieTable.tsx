@@ -7,7 +7,7 @@ export default function MovieTable({...props}) {
     /*
      * STATE
      */
-    const {movies, remove} = props;
+    const {movies, remove, like} = props;
 
     /*
      * RENDERING
@@ -23,11 +23,12 @@ export default function MovieTable({...props}) {
                     <th scope="col">Stock</th>
                     <th scope="col">Rate</th>
                     <th scope="col"/>
+                    <th scope="col"/>
                 </tr>
                 </thead>
                 <tbody>
                 {movies.map(function (movie: Movie) {
-                    return <MovieTableRow key={movie._id} movie={movie} remove={remove}/>
+                    return <MovieTableRow key={movie._id} movie={movie} remove={remove} like={like}/>
                 })}
                 </tbody>
             </table>

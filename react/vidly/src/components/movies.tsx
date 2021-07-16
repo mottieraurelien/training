@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {getMovies} from "../services/fakeMovieService";
 import MovieTable from "./movieTable";
+import Movie from "../domain/Movie";
 
 export default function Movies() {
 
@@ -16,6 +17,13 @@ export default function Movies() {
         const remainingMovies = movies.filter(movie => movie._id !== movieId);
         setMovies(remainingMovies);
     }
+    const like = (movieId: string) => {
+        const updatedMovies = movies.map(movie => movie._id === movieId ? new Movie({
+            ...movie,
+            liked: !movie.liked
+        }) : movie);
+        setMovies(updatedMovies);
+    }
 
     /*
      * RENDERING
@@ -23,7 +31,7 @@ export default function Movies() {
     return (
         <main className="container">
             {movies && movies.length === 0 && <p>There are no movies in the database.</p>}
-            {movies && movies.length > 0 && <MovieTable movies={movies} remove={remove}/>}
+            {movies && movies.length > 0 && <MovieTable movies={movies} remove={remove} like={like}/>}
         </main>
     );
 
