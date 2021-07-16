@@ -1,4 +1,6 @@
-export default class Genre {
+import Group from "./Group";
+
+export default class Genre implements Group {
 
     _id: string;
     name: string;
@@ -6,6 +8,14 @@ export default class Genre {
     constructor(genre: any) {
         this._id = genre["_id"];
         this.name = genre["name"];
+    }
+
+    getId(): string {
+        return this._id;
+    }
+
+    getLabel(): string {
+        return this.name;
     }
 
 }

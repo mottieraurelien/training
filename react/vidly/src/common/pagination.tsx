@@ -3,7 +3,7 @@ import range from "../utils/array";
 
 export default function Pagination({...props}) {
 
-    const {entities, pageSize, activePage, goTo} = props;
+    const {entities, pageSize, selectedPage, selectPage} = props;
 
     const pagesNumber: number = Math.ceil(entities.length / pageSize);
     if (pagesNumber < 2) return null;
@@ -14,8 +14,8 @@ export default function Pagination({...props}) {
             <ul className="pagination">
                 {pages.map(pageNumber =>
                     <li key={pageNumber}
-                        className={pageNumber === activePage ? "page-item pointer active" : "page-item pointer"}>
-                        <button className="page-link" onClick={() => goTo(pageNumber)}>{pageNumber}</button>
+                        className={pageNumber === selectedPage ? "page-item pointer active" : "page-item pointer"}>
+                        <button className="page-link" onClick={() => selectPage(pageNumber)}>{pageNumber}</button>
                     </li>
                 )
                 }

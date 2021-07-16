@@ -73,6 +73,11 @@ export function getMovies(): Movie[] {
     return movies;
 }
 
+export function getMoviesFrom(genreId: string | undefined): Movie[] {
+    if (!genreId) return movies;
+    return movies.filter(movie => movie.genre._id === genreId);
+}
+
 export function getMovie(movieId: string): Movie {
     return ensure(movies.find(movie => movie._id === movieId));
 }
