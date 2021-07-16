@@ -2,9 +2,6 @@ import React from 'react';
 
 export default function CounterLine({...props}) {
 
-    /*
-     * STATE
-     */
     const {item, remove, increment, decrement} = props;
 
     /*
