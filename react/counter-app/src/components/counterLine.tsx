@@ -8,11 +8,15 @@ export default function CounterLine({...props}) {
      * RENDERING
      */
     return (
-        <div>
-            <span className={item.format()}>{item.label()}</span>
-            <button className="btn btn-secondary btn-sm m-1" onClick={() => increment(item)}>+</button>
-            <button className="btn btn-secondary btn-sm m-1" onClick={() => decrement(item)} disabled={item.isDisabled()}>-</button>
-            <button className="btn btn-danger btn-sm m-1" onClick={() => remove(item)}>Delete</button>
+        <div className="row">
+            <div className="col-1">
+                <span className={item.format()}>{item.label()}</span>
+            </div>
+            <div className="col">
+                <button className="btn btn-secondary btn-sm" onClick={() => increment(item)}>+</button>
+                <button className="btn btn-secondary btn-sm m-2" onClick={() => decrement(item)} disabled={item.isDisabled()}>-</button>
+                <button className="btn btn-danger btn-sm" onClick={() => remove(item)}>Delete</button>
+            </div>
         </div>
     );
 

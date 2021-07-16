@@ -1,60 +1,26 @@
-import React, {useMemo, useState} from 'react';
-import Item from "../domain/Item";
+import React from 'react';
 import CounterLine from "./counterLine";
+import Item from "../domain/Item";
 
-export default function Counter() {
+export default function Counter({...props}) {
 
-    /*
-     * STATE
-     */
-    const [items, setItems] = useState([new Item(0, 0), new Item(1, 0), new Item(2, 0), new Item(3, 0)]);
-    const sum = (subTotal: number, item: Item) => subTotal + item.quantity;
-    const total = useMemo(() => items.reduce(sum, 0), [items]);
-
-    /*
-     * BEHAVIOUR
-     */
-    const increment = (itemToUpdate: Item) => {
-        setItems(
-            items.map(item =>
-                item === itemToUpdate ? new Item(item.id, ++item.quantity) : item)
-        );
-    }
-    const decrement = (itemToUpdate: Item) => {
-        setItems(
-            items.map(item =>
-                item === itemToUpdate ? new Item(item.id, --item.quantity) : item)
-        );
-    }
-    const remove = (itemToRemove: Item) => {
-        const remainingItems = items.filter(item => item !== itemToRemove)
-        setItems(remainingItems);
-
-    }
-    const reset = () => {
-        setItems([new Item(0, 0), new Item(1, 0), new Item(2, 0), new Item(3, 0)]);
-    }
+    const {items, reset, remove, increment, decrement} = props;
 
     /*
      * RENDERING
      */
     return (
         <React.Fragment>
-            <nav className="navbar navbar-light bg-light d-flex justify-content-start">
-                <span className="navbar-brand mb-0 h1">Navbar</span>
-                <span className="badge badge-pill badge-secondary">{total}</span>
-            </nav>
-            <div>
-                <button className="btn btn-primary btn-sm m-2" onClick={() => reset()}>Reset</button>
-                <br/>
-                {items.map((item) => {
-                    return <CounterLine key={item.id}
-                                        item={item}
-                                        remove={remove}
-                                        increment={increment}
-                                        decrement={decrement}/>
-                })}
-            </div>
+            <button className="btn btn-primary btn-sm m-2" onClick={reset}>Reset</button>
+            <br/>
+            {items.map(function (item: Item) {
+                return <CounterLine key={item.id}
+                                    item={item}
+                                    remove={remove}
+                                    increment={increment}
+                                    decrement={decrement}/>
+            })}
+
         </React.Fragment>
     );
 
