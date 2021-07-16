@@ -14,7 +14,6 @@ export default function MovieTable({...props}) {
      */
     return (
         <React.Fragment>
-            <span>Showing {movies.length} movies in the database.</span><br/><br/>
             <table className="table">
                 <thead>
                 <tr>
