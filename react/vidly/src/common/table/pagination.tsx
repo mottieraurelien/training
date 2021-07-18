@@ -1,20 +1,28 @@
 import React from "react";
-import range from "../utils/array";
+import {range} from "../utils/array";
 
-export default function Pagination({...props}) {
+interface FromProps {
+    rowsNumber: number;
+    pageSize: number;
+    selectedPage: number;
+    selectPage: Function;
+}
 
-    const {entities, pageSize, selectedPage, selectPage} = props;
+export default function Pagination({rowsNumber, pageSize, selectedPage, selectPage}: FromProps) {
 
-    const pagesNumber: number = Math.ceil(entities.length / pageSize);
+    const pagesNumber: number = Math.ceil(rowsNumber / pageSize);
     if (pagesNumber < 2) return null;
     const pages: number[] = range(pagesNumber, 1);
 
+    /*
+     * RENDERING
+     */
     return (
         <nav aria-label="Pagination">
             <ul className="pagination">
                 {pages.map(pageNumber =>
                     <li key={pageNumber}
-                        className={pageNumber === selectedPage ? "page-item pointer active" : "page-item pointer"}>
+                        className={pageNumber === selectedPage ? "page-item clickable active" : "page-item clickable"}>
                         <button className="page-link" onClick={() => selectPage(pageNumber)}>{pageNumber}</button>
                     </li>
                 )

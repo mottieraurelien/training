@@ -1,11 +1,13 @@
-import React, {useState} from 'react';
+import React, {useState} from "react";
 import {getMovies} from "../services/fakeMovieService";
-import MovieTable from "./movieTable";
-import Movie from "../domain/Movie";
-import Pagination from '../common/pagination';
+import MoviesTable from "./moviesTable";
+import Movie from "../domain/movie";
+import Pagination from '../common/table/pagination';
 import {getGenres} from "../services/fakeGenreService";
-import Genre from "../domain/Genre";
-import Groups from "../common/groups";
+import Genre from "../domain/genre";
+import Groups from "../common/menu/groups";
+import Sorting from "../common/table/domain/sorting";
+import {orderBy} from "../common/utils/array";
 
 export default function Movies() {
 
@@ -17,6 +19,7 @@ export default function Movies() {
     const [movies, setMovies] = useState<Movie[]>(getMovies());
     const [pageSize] = useState<number>(4);
     const [selectedPage, setSelectedPage] = useState<number>(1);
+    const [sorting, setSorting] = useState<Sorting>();
 
     /*
      * BEHAVIOUR
@@ -32,6 +35,9 @@ export default function Movies() {
         }) : movie);
         setMovies(updatedMovies);
     }
+    const sort = (newSorting: Sorting) => {
+        setSorting(newSorting);
+    }
     const selectPage = (pageNumber: number) => {
         setSelectedPage(pageNumber);
     }
@@ -39,21 +45,24 @@ export default function Movies() {
         setSelectedPage(1);
         setSelectedGenreId(genreId);
     }
-
-    // Applying genre filter :
-    const filteredMovies: Movie[] = selectedGenreId ? movies.filter(movie => movie.genre._id === selectedGenreId) : movies;
-
-    // Applying pagination :
-    const skip: number = (selectedPage - 1) * pageSize;
-    const paginatedMovies: Movie[] = filteredMovies.slice(skip, pageSize * selectedPage);
+    const getFilteredSortedPagedMovies = () => {
+        // Applying genre filter :
+        const filteredMovies: Movie[] = selectedGenreId ? movies.filter(movie => movie.genre._id === selectedGenreId) : movies;
+        // Applying sort :
+        if (sorting) filteredMovies.sort(orderBy(sorting));
+        // Applying pagination :
+        const skip: number = (selectedPage - 1) * pageSize;
+        return {number: filteredMovies.length, data: filteredMovies.slice(skip, pageSize * selectedPage)};
+    }
 
     /*
      * RENDERING
      */
+    const {data, number} = getFilteredSortedPagedMovies();
     return (
         <main className="container">
-            {movies && movies.length === 0 && <p>There are no movies in the database.</p>}
-            {movies && movies.length > 0
+            {movies && number === 0 && <p>There are no movies in the database.</p>}
+            {movies && number > 0
             && <div className="row">
                 <div className="col-3">
                     <Groups groups={genres}
@@ -61,9 +70,9 @@ export default function Movies() {
                             selectGroup={selectGenre}/>
                 </div>
                 <div className="col">
-                    <span>Showing {movies.length} movies in the database.</span><br/><br/>
-                    <MovieTable movies={paginatedMovies} remove={remove} like={like}/>
-                    <Pagination pageSize={pageSize} entities={filteredMovies} selectedPage={selectedPage}
+                    <span>Showing {number} movies in the database.</span><br/><br/>
+                    <MoviesTable movies={data} remove={remove} like={like} sort={sort} sorting={sorting}/>
+                    <Pagination pageSize={pageSize} rowsNumber={number} selectedPage={selectedPage}
                                 selectPage={selectPage}/>
                 </div>
             </div>

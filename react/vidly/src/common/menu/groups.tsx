@@ -1,13 +1,20 @@
 import React from "react";
-import Group from "../domain/Group";
+import Group from "./domain/group";
 
-export default function Groups({...props}) {
+interface FromProps {
+    groups: Group[];
+    selectGroup: Function;
+    selectedGroupId: string | undefined;
+}
 
-    const {groups, selectGroup, selectedGroupId} = props;
+export default function Groups({groups, selectGroup, selectedGroupId}: FromProps) {
 
     const inactiveGroupClasses: string = "list-group-item list-group-item-action";
     const activeGroupClasses: string = inactiveGroupClasses + " active";
 
+    /*
+     * RENDERING
+     */
     return (
         <div className="list-group">
             <button type="button"

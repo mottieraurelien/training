@@ -1,6 +1,7 @@
-import Genre from "./Genre";
+import Genre from "./genre";
+import Row from "../common/table/domain/row";
 
-export default class Movie {
+export default class Movie implements Row {
 
     _id: string;
     title: string;
@@ -18,6 +19,14 @@ export default class Movie {
         this.rate = movie["rate"];
         this.publishDate = movie["publishDate"];
         this.liked = movie["liked"];
+    }
+
+    getKey(): string {
+        return this._id;
+    }
+
+    getContent(): any {
+        return this;
     }
 
 }

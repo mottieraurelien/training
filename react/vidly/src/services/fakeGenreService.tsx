@@ -1,5 +1,5 @@
-import Genre from "../domain/Genre";
-import ensure from "../utils/ensure";
+import Genre from "../domain/genre";
+import ensure from "../common/utils/ensure";
 
 const genres = [
     new Genre({_id: "5b21ca3eeb7f6fbccd471818", name: "Action"}),

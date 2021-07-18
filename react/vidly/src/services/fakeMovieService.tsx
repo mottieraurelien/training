@@ -1,6 +1,6 @@
 import {getGenre} from "./fakeGenreService";
-import ensure from "../utils/ensure";
-import Movie from "../domain/Movie";
+import ensure from "../common/utils/ensure";
+import Movie from "../domain/movie";
 
 const movies: Movie[] = [
     new Movie({

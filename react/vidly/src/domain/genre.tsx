@@ -1,4 +1,4 @@
-import Group from "./Group";
+import Group from "../common/menu/domain/group";
 
 export default class Genre implements Group {
 

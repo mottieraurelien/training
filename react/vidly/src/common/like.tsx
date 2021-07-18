@@ -1,10 +1,18 @@
 import React from "react";
 
-export default function Like({...props}) {
+interface FromProps {
+    id: number | string;
+    liked: boolean;
+    like: Function;
+}
 
-    const {id, liked, like} = props;
-    const classes = liked ? "pointer fa fa-heart" : "pointer fa fa-heart-o";
+export default function Like({id, liked, like}: FromProps) {
 
+    const classes = liked ? "clickable fa fa-heart" : "clickable fa fa-heart-o";
+
+    /*
+     * RENDERING
+     */
     return (
         <React.Fragment>
             <i onClick={() => like(id)} className={classes} aria-hidden="true"/>
