@@ -1,11 +1,11 @@
 import React from "react";
 import {Redirect, Route, Switch} from "react-router-dom";
-import Movies from "./movie/movies";
-import Customers from "./customer/customers";
-import Rentals from "./rental/rentals";
+import Movies from "./movie/";
+import Customers from "./customer";
+import Rentals from "./rental";
 import Navbar from "../common/navbar";
 import {NotFound} from "./error";
-import MovieForm from "./movie/movieForm";
+import MovieForm from "./movie/form";
 
 export default function Vidly() {
 
