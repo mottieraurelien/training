@@ -1,13 +1,13 @@
 import React, {useState} from "react";
-import {getMovies} from "../services/fakeMovieService";
+import {getMovies} from "../../services/fakeMovieService";
 import MoviesTable from "./moviesTable";
-import Movie from "../domain/movie";
-import Pagination from '../common/table/pagination';
-import {getGenres} from "../services/fakeGenreService";
-import Genre from "../domain/genre";
-import Groups from "../common/menu/groups";
-import Sorting from "../common/table/domain/sorting";
-import {orderBy} from "../common/utils/array";
+import Movie from "../../domain/movie";
+import Pagination from '../../common/table/pagination';
+import {getGenres} from "../../services/fakeGenreService";
+import Genre from "../../domain/genre";
+import Groups from "../../common/menu/groups";
+import Sorting from "../../common/table/domain/sorting";
+import {orderBy} from "../../common/utils/array";
 
 export default function Movies() {
 

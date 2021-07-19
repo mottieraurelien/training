@@ -1,9 +1,9 @@
 import React from "react";
-import Column from "../common/table/domain/column";
-import Movie from "../domain/movie";
-import Like from "../common/like";
-import Table from "../common/table/table";
-import Sorting from "../common/table/domain/sorting";
+import Column from "../../common/table/domain/column";
+import Movie from "../../domain/movie";
+import Like from "../../common/like";
+import Table from "../../common/table/table";
+import Sorting from "../../common/table/domain/sorting";
 
 interface FromProps {
     movies: Movie[];
