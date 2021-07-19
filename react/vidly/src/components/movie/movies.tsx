@@ -60,7 +60,7 @@ export default function Movies() {
      */
     const {data, number} = getFilteredSortedPagedMovies();
     return (
-        <main className="container">
+        <React.Fragment>
             {movies && number === 0 && <p>There are no movies in the database.</p>}
             {movies && number > 0
             && <div className="row">
@@ -77,7 +77,7 @@ export default function Movies() {
                 </div>
             </div>
             }
-        </main>
+        </React.Fragment>
     );
 
 }

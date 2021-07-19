@@ -4,6 +4,7 @@ import Movie from "../../domain/movie";
 import Like from "../../common/like";
 import Table from "../../common/table/table";
 import Sorting from "../../common/table/domain/sorting";
+import {Link} from "react-router-dom";
 
 interface FromProps {
     movies: Movie[];
@@ -16,7 +17,7 @@ interface FromProps {
 export default function MoviesTable({movies, remove, like, sort, sorting}: FromProps) {
 
     const columns: Column[] = [
-        new Column("title", (movie: Movie) => movie.title, "Title", true),
+        new Column("title", (movie: Movie) => <Link to={`/movies/${movie._id}`}>{movie.title}</Link>, "Title", true),
         new Column("genre.name", (movie: Movie) => movie.genre.name, "Genre", true),
         new Column("stock", (movie: Movie) => movie.stock, "Stock", true),
         new Column("rate", (movie: Movie) => movie.rate, "Rate", true),
