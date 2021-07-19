@@ -4,7 +4,7 @@ import Movies from "./movie/";
 import Customers from "./customer";
 import Rentals from "./rental";
 import Navbar from "../common/navbar";
-import {NotFound} from "./error";
+import {NotFound} from "../common/error/404";
 import MovieForm from "./movie/form";
 
 export default function Vidly() {
