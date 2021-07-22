@@ -1,5 +1,4 @@
 import {getGenre} from "./fakeGenreService";
-import ensure from "../common/utils/ensure";
 import Movie from "../domain/movie";
 
 const movies: Movie[] = [
@@ -78,16 +77,16 @@ export function getMoviesFrom(genreId: string | undefined): Movie[] {
     return movies.filter(movie => movie.genre._id === genreId);
 }
 
-export function getMovie(movieId: string): Movie {
-    return ensure(movies.find(movie => movie._id === movieId));
+export function getMovie(movieId: string): Movie | undefined {
+    return movies.find(movie => movie._id === movieId);
 }
 
-export function save(newMovie: any): Movie {
+export function persist(newMovie: Movie): Movie {
 
     const movie: Movie = movies.find(movie => movie._id === newMovie._id) || new Movie({});
 
-    movie.genre = getGenre(newMovie.genreId);
-    movie.title = newMovie.name;
+    movie.genre = newMovie.genre;
+    movie.title = newMovie.title;
     movie.stock = newMovie.stock;
     movie.rate = newMovie.rate;
 

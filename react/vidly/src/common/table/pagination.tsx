@@ -18,7 +18,7 @@ export default function Pagination({rowsNumber, pageSize, selectedPage, selectPa
      * RENDERING
      */
     return (
-        <nav aria-label="Pagination">
+        <nav aria-label="Pagination" className="mt-4">
             <ul className="pagination">
                 {pages.map(pageNumber =>
                     <li key={pageNumber}

@@ -6,8 +6,9 @@ import Pagination from '../../common/table/pagination';
 import {getGenres} from "../../services/fakeGenreService";
 import Genre from "../../domain/genre";
 import Groups from "../../common/menu";
-import Sorting from "../../common/table/domain/sorting";
+import Sorting, {SortingOrder} from "../../common/table/domain/sorting";
 import {orderBy} from "../../common/utils/array";
+import {Link} from "react-router-dom";
 
 export default function Movies() {
 
@@ -19,7 +20,7 @@ export default function Movies() {
     const [movies, setMovies] = useState<Movie[]>(getMovies());
     const [pageSize] = useState<number>(4);
     const [selectedPage, setSelectedPage] = useState<number>(1);
-    const [sorting, setSorting] = useState<Sorting>();
+    const [sorting, setSorting] = useState<Sorting>(new Sorting("title", SortingOrder.DEFAULT));
 
     /*
      * BEHAVIOUR
@@ -70,7 +71,8 @@ export default function Movies() {
                             selectGroup={selectGenre}/>
                 </div>
                 <div className="col">
-                    <span>Showing {number} movies in the database.</span><br/><br/>
+                    <div><Link className="btn btn-primary" to="/movies/new">New Movie</Link></div>
+                    <div className="mt-3 mb-2"><span>Showing {number} movies in the database.</span></div>
                     <MoviesTable movies={data} remove={remove} like={like} sort={sort} sorting={sorting}/>
                     <Pagination pageSize={pageSize} rowsNumber={number} selectedPage={selectedPage}
                                 selectPage={selectPage}/>

@@ -6,6 +6,8 @@ import Rentals from "./rental";
 import Navbar from "../common/navbar";
 import {NotFound} from "../common/error/404";
 import MovieForm from "./movie/form";
+import Login from "../common/login";
+import Register from "../common/register";
 
 export default function Vidly() {
 
@@ -17,6 +19,9 @@ export default function Vidly() {
             <Navbar/>
             <main className="container m-3">
                 <Switch>
+                    <Route path="/register" component={Register}/>
+                    <Route path="/login" component={Login}/>
+                    <Route path="/movies/new" exact component={MovieForm}/>
                     <Route path="/movies/:id" component={MovieForm}/>
                     <Route path="/movies" component={Movies}/>
                     <Route path="/customers" component={Customers}/>

@@ -1,6 +1,6 @@
 export enum SortingOrder {
-    ASC = "asc",
-    DESC = "desc",
+    ASCENDING = "asc",
+    DESCENDING = "desc",
     DEFAULT = "asc"
 }
 
@@ -23,18 +23,18 @@ export default class Sorting {
     }
 
     isAsc() {
-        return this.order === SortingOrder.ASC;
+        return this.order === SortingOrder.ASCENDING;
     }
 
     isDesc() {
-        return this.order === SortingOrder.DESC;
+        return this.order === SortingOrder.DESCENDING;
     }
 
     toggle() {
         if (this.isAsc()) {
-            this.order = SortingOrder.DESC;
+            this.order = SortingOrder.DESCENDING;
         } else if (this.isDesc()) {
-            this.order = SortingOrder.ASC;
+            this.order = SortingOrder.ASCENDING;
         }
     }
 
