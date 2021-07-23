@@ -1,16 +1,16 @@
 import React, {ChangeEventHandler} from "react";
 
 interface FromProps {
+    name: string;
+    change: ChangeEventHandler<HTMLInputElement>;
     type?: string;
     placeholder?: string;
-    name: string;
-    label: string;
+    label?: string;
     value?: any;
     error?: string;
-    change: ChangeEventHandler<HTMLInputElement>;
 }
 
-export default function Input({type = "text", placeholder = "", name, label, value, error, change}: FromProps) {
+export default function Input({type = "text", placeholder, name, label, value, error, change}: FromProps) {
 
     /**
      * RENDERING
@@ -18,7 +18,7 @@ export default function Input({type = "text", placeholder = "", name, label, val
     return (
         <React.Fragment>
             <div className="form-group my-3">
-                <label htmlFor={name}>{label}</label>
+                {label && <label htmlFor={name}>{label}</label>}
                 <input
                     id={name}
                     name={name}
