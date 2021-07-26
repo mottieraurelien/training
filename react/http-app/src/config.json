@@ -1,0 +1,10 @@
+{
+  "api": {
+    "endpoint": "https://jsonplaceholder.typicode.com",
+    "timeout": 3000
+  },
+  "sentry": {
+    "dsn": "https://6645cfbbab444323b22e7779c3a51551@o930405.ingest.sentry.io/5878937",
+    "rate": 1.0
+  }
+}
