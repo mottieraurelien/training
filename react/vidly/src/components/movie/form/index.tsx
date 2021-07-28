@@ -1,8 +1,8 @@
-import React, {ChangeEvent, useMemo, useState} from "react";
-import {getMovie, persist} from "../../../services/fakeMovieService";
+import React, {ChangeEvent, useEffect, useMemo, useState} from "react";
+import {getMovie, saveMovie} from "../../../services/movieService";
 import Movie from "../../../domain/movie";
 import Genre from "../../../domain/genre";
-import {getGenre, getGenres} from "../../../services/fakeGenreService";
+import {getGenre, getGenres} from "../../../services/genreService";
 import ValidationReport from "../../../common/form/domain/validationReport";
 import Form from "../../../common/form";
 import Input from "../../../common/input";
@@ -11,19 +11,35 @@ import Select from "../../../common/select";
 export default function MovieForm({...props}) {
 
     /**
-     * PROPS
-     */
-    const {id} = props.match.params;
-    const existingMovie: Movie | undefined = id ? getMovie(id) : undefined;
-    if (id && !existingMovie) props.history.replace("/not-found");
-
-    /**
      * STATE
      */
-    const [genres] = useState<Genre[]>(getGenres());
-    const [movie, setMovie] = useState(existingMovie || undefined);
+    const [genres, setGenres] = useState<Genre[]>();
+    const [movie, setMovie] = useState<Movie>();
     const [report, setReport] = useState<ValidationReport>();
     const disableSubmit = useMemo(() => !movie || movie.validate().hasAnError(), [movie]);
+
+    /**
+     * DATA LOADING
+     */
+    useEffect(() => {
+        const fetch = async () => {
+            const genres = await getGenres();
+            if (genres) setGenres(genres);
+        }
+        if (!genres) fetch();
+    }, [genres]);
+    useEffect(() => {
+        const {id} = props.match.params;
+        const fetch = async () => {
+            try {
+                const existingMovie = await getMovie(id);
+                setMovie(existingMovie);
+            } catch {
+                props.history.replace("/not-found");
+            }
+        }
+        if (id && !movie) fetch();
+    }, [movie, props]);
 
     /**
      * BEHAVIOUR
@@ -32,19 +48,16 @@ export default function MovieForm({...props}) {
         const {name, value} = input;
 
         const tempMovie: any = movie ? {...movie} : {};
-        tempMovie[name] = name === "genre" ? getGenre(value) : value;
+        tempMovie[name] = name === "genre" ? getGenre(genres, value) : value;
 
         const newMovie: Movie = new Movie(tempMovie);
 
         setReport(newMovie.validateOnly(input, report));
         setMovie(newMovie);
     }
-    const save = () => {
-        // Check
+    const save = async () => {
         if (!movie) return;
-        // Save the movie :
-        persist(movie);
-        // Redirection :
+        await saveMovie(movie);
         props.history.push("/movies");
     }
 
@@ -60,12 +73,12 @@ export default function MovieForm({...props}) {
                        error={report && report.getErrorMessage("title")}/>
                 <Select items={genres} name="genre" label="Genre" value={movie && movie.genre && movie.genre._id}
                         change={change} error={report && report.getErrorMessage("genre")}/>
-                <Input name="stock" label="Stock" value={movie && movie.stock}
+                <Input name="numberInStock" label="Stock" value={movie && movie.numberInStock}
                        type="number" placeholder="Number in stock" change={change}
-                       error={report && report.getErrorMessage("stock")}/>
-                <Input name="rate" label="Rate" value={movie && movie.rate}
+                       error={report && report.getErrorMessage("numberInStock")}/>
+                <Input name="dailyRentalRate" label="Rate" value={movie && movie.dailyRentalRate}
                        type="number" placeholder="Daily rental rate" change={change}
-                       error={report && report.getErrorMessage("rate")}/>
+                       error={report && report.getErrorMessage("dailyRentalRate")}/>
             </Form>
         </React.Fragment>
     );

@@ -1,7 +1,7 @@
-import React, {ChangeEvent, useState} from "react";
-import {getMovies} from "../../services/fakeMovieService";
+import React, {ChangeEvent, useEffect, useState} from "react";
+import {getMovies, saveMovie, removeMovie} from "../../services/movieService";
 import Movie from "../../domain/movie";
-import {getGenres} from "../../services/fakeGenreService";
+import {getGenres} from "../../services/genreService";
 import Genre from "../../domain/genre";
 import Groups from "../../common/menu";
 import Sorting, {SortingOrder} from "../../common/table/domain/sorting";
@@ -16,27 +16,50 @@ export default function Movies() {
     /*
      * STATE
      */
-    const [genres] = useState<Genre[]>(getGenres());
+    const [genres, setGenres] = useState<Genre[]>([]);
     const [selectedGenreId, setSelectedGenreId] = useState<string>();
     const [searchQuery, setSearchQuery] = useState<string>();
-    const [movies, setMovies] = useState<Movie[]>(getMovies());
+    const [movies, setMovies] = useState<Movie[]>();
     const [pageSize] = useState<number>(4);
     const [selectedPage, setSelectedPage] = useState<number>(1);
     const [sorting, setSorting] = useState<Sorting>(new Sorting("title", SortingOrder.DEFAULT));
 
+    /**
+     * DATA LOADING
+     */
+    useEffect(() => {
+        const fetch = async () => {
+            const genres = await getGenres();
+            if (genres) setGenres(genres);
+        }
+        fetch();
+    }, []);
+    useEffect(() => {
+        const fetch = async () => {
+            const movies = await getMovies();
+            if (movies) setMovies(movies);
+        }
+        fetch();
+    }, []);
+
     /*
      * BEHAVIOUR
      */
-    const remove = (movieId: string) => {
+    const remove = async (movieId: string) => {
+        if (!movies) throw Error("Movies are still not loaded.");
         const remainingMovies: Movie[] = movies.filter(movie => movie._id !== movieId);
         setMovies(remainingMovies);
+        await removeMovie(movieId);
     }
-    const like = (movieId: string) => {
-        const updatedMovies: Movie[] = movies.map(movie => movie._id === movieId ? new Movie({
-            ...movie,
-            liked: !movie.liked
-        }) : movie);
+    const like = async (movieId: string) => {
+        if (!movies) throw Error("Movies are still not loaded.");
+        const index: number = movies.findIndex(movie => movie._id === movieId);
+        const existingMovie: Movie = movies[index];
+        const updatedMovie: Movie = new Movie({...existingMovie, liked: !existingMovie.liked});
+        const updatedMovies: Movie[] = [...movies];
+        updatedMovies[index] = updatedMovie;
         setMovies(updatedMovies);
+        await saveMovie(updatedMovie);
     }
     const sort = (newSorting: Sorting) => {
         setSorting(newSorting);
@@ -50,6 +73,7 @@ export default function Movies() {
         setSelectedGenreId(genreId);
     }
     const getFilteredSortedPagedMovies = () => {
+        if (!movies) return {data: [], number: 0};
         // Applying genre filter :
         const filteredMoviesByGenre: Movie[] = selectedGenreId ? movies.filter(movie => movie.genre._id === selectedGenreId) : movies;
         // Applying title filter (case insensitive) :

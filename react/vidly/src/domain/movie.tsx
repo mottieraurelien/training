@@ -8,8 +8,8 @@ export default class Movie extends Validateable implements Row {
     _id: string;
     title: string;
     genre: Genre;
-    stock: number;
-    rate: number;
+    numberInStock: number;
+    dailyRentalRate: number;
     publishDate: Date;
     liked: boolean;
 
@@ -17,15 +17,15 @@ export default class Movie extends Validateable implements Row {
         const schema: any = {
             title: Joi.string().required().label("Title"),
             genre: Joi.any().required().label("Genre"),
-            stock: Joi.number().min(0).max(100).required().label("Number in stock"),
-            rate: Joi.number().min(0).max(10).required().label("Daily rental rate"),
+            numberInStock: Joi.number().min(0).max(100).required().label("Number in stock"),
+            dailyRentalRate: Joi.number().min(0).max(10).required().label("Daily rental rate"),
         };
         super(schema);
         this._id = movie["_id"];
         this.title = movie["title"];
         this.genre = movie["genre"];
-        this.stock = movie["stock"];
-        this.rate = movie["rate"];
+        this.numberInStock = movie["numberInStock"];
+        this.dailyRentalRate = movie["dailyRentalRate"];
         this.publishDate = movie["publishDate"];
         this.liked = movie["liked"];
     }

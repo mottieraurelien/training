@@ -21,7 +21,7 @@ export default function Select({...props}) {
                         value={value}
                         onChange={change}>
                     {
-                        items.map(function (item: any) {
+                        items && items.map(function (item: any) {
                             const {_id, name} = item;
                             return <option key={_id} value={_id}>{name}</option>;
                         })
