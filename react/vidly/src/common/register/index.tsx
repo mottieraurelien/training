@@ -3,8 +3,10 @@ import Form from "../form";
 import Input from "../input";
 import ValidationReport from "../form/domain/validationReport";
 import Account from "./domain/account";
+import user from "../../services/userService";
+import auth from "../../services/authService";
 
-export default function Register() {
+export default function Register({...props}) {
 
     /**
      * STATE
@@ -25,23 +27,38 @@ export default function Register() {
         setAccount(newAccount);
     }
 
-    const register = () => {
-        // TODO Call server
-        // TODO Redirection
+    const submit = async () => {
+        try {
+            if (account) {
+                const {headers} = await user.register(account);
+                const token = headers["x-auth-token"];
+                auth.loginUsing(token);
+                // Our NavBar has already been mounted so we need to full reload our website to update the NavBar.
+                // It means that we won't use props.history but directly :
+                window.location.href = "/";
+            }
+        } catch (ex) {
+            const {response} = ex;
+            if (response && response.status === 400) {
+                const newReport: ValidationReport = new ValidationReport();
+                newReport.push("email", response.data);
+                setReport(newReport);
+            }
+        }
     }
 
     /**
-     * RENDERING
+     * RENDERING+++++++
      */
     return (
         <React.Fragment>
             <h1>Register</h1>
-            <Form callback={register} disabled={disableSubmit} submitLabel="Register">
-                <Input name="username" label="Username" value={account && account.username}
+            <Form callback={submit} disabled={disableSubmit} submitLabel="Register">
+                <Input name="email" label="Username" value={account && account.email}
                        type="email" placeholder="email@example.com" change={change}
-                       error={report && report.getErrorMessage("username")}/>
+                       error={report && report.getErrorMessage("email")}/>
                 <Input name="password" label="Password" value={account && account.password}
-                       type="password"  placeholder="Password" change={change}
+                       type="password" placeholder="Password" change={change}
                        error={report && report.getErrorMessage("password")}/>
                 <Input name="name" label="Name" value={account && account.name}
                        placeholder="Name" change={change}

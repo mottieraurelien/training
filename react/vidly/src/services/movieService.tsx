@@ -16,7 +16,7 @@ export async function getMovie(id: string): Promise<Movie> {
 }
 
 export async function removeMovie(id: string): Promise<void> {
-    await remove("a" + resource + id);
+    await remove(resource + id);
 }
 
 export async function saveMovie(newMovie: Movie): Promise<Movie> {

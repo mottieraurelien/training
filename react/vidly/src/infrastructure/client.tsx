@@ -1,4 +1,4 @@
-import axios, {AxiosResponse} from "axios";
+import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
 import config from "../config/config.json";
 import log from "./logger";
 
@@ -10,7 +10,7 @@ const client = axios.create({
     baseURL: config["api"]["endpoint"],
     timeout: config["api"]["timeout"],
     // auth...
-    // headers: {'X-Custom-Header': 'foobar'}...
+    // headers...
 });
 
 /**
@@ -19,7 +19,18 @@ const client = axios.create({
  */
 client.interceptors.response.use(undefined, error => {
     log(error);
+    return Promise.reject(error);
 });
+
+/**
+ * Everytime we call the backend, the request will include our token in a custom header.
+ */
+export function setToken(token: string | null) {
+    client.interceptors.request.use(function (clientConfig: AxiosRequestConfig) {
+        clientConfig.headers["x-auth-token"] = token;
+        return clientConfig
+    });
+}
 
 /**
  * [GET]

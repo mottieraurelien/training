@@ -8,6 +8,8 @@ import {NotFound} from "../common/error/404";
 import MovieForm from "./movie/form";
 import Login from "../common/login";
 import Register from "../common/register";
+import Logout from "../common/logout";
+import ProtectedRoute from "../common/route/protected";
 
 export default function Vidly() {
 
@@ -21,8 +23,9 @@ export default function Vidly() {
                 <Switch>
                     <Route path="/register" component={Register}/>
                     <Route path="/login" component={Login}/>
-                    <Route path="/movies/new" exact component={MovieForm}/>
-                    <Route path="/movies/:id" component={MovieForm}/>
+                    <Route path="/logout" component={Logout}/>
+                    <ProtectedRoute path="/movies/new" exact component={MovieForm}/>
+                    <ProtectedRoute path="/movies/:id" component={MovieForm}/>
                     <Route path="/movies" component={Movies}/>
                     <Route path="/customers" component={Customers}/>
                     <Route path="/rentals" component={Rentals}/>

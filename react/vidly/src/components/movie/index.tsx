@@ -1,12 +1,13 @@
 import React, {ChangeEvent, useEffect, useState} from "react";
-import {getMovies, saveMovie, removeMovie} from "../../services/movieService";
-import Movie from "../../domain/movie";
+import {Link} from "react-router-dom";
+import {getMovies, removeMovie, saveMovie} from "../../services/movieService";
 import {getGenres} from "../../services/genreService";
+import auth from "../../services/authService";
+import Movie from "../../domain/movie";
 import Genre from "../../domain/genre";
 import Groups from "../../common/menu";
 import Sorting, {SortingOrder} from "../../common/table/domain/sorting";
 import {orderBy} from "../../common/utils/array";
-import {Link} from "react-router-dom";
 import Input from "../../common/input";
 import MoviesTable from "./table";
 import Pagination from "../../common/table/pagination";
@@ -47,9 +48,14 @@ export default function Movies() {
      */
     const remove = async (movieId: string) => {
         if (!movies) throw Error("Movies are still not loaded.");
+        const originalMovies: Movie[] = [...movies];
         const remainingMovies: Movie[] = movies.filter(movie => movie._id !== movieId);
         setMovies(remainingMovies);
-        await removeMovie(movieId);
+        try {
+            await removeMovie(movieId);
+        } catch (error) {
+            setMovies(originalMovies);
+        }
     }
     const like = async (movieId: string) => {
         if (!movies) throw Error("Movies are still not loaded.");
@@ -104,7 +110,8 @@ export default function Movies() {
                             selectGroup={selectGenre}/>
                 </div>
                 <div className="col">
-                    <div><Link className="btn btn-primary" to="/movies/new">New Movie</Link></div>
+                    {auth.isAuthenticated() &&
+                    <div><Link className="btn btn-primary" to="/movies/new">New Movie</Link></div>}
                     {movies && number === 0 && <p>There are no movies in the database.</p>}
                     {movies && number > 0 &&
                     <React.Fragment>
