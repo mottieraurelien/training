@@ -1,16 +1,14 @@
 import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
-import config from "../config/config.json";
 import log from "./logger";
+import {api_endpoint, api_timeout_milliseconds, token_header_key} from "./config";
 
 /**
  * The HTTP client instance from axios that we are gonna use when calling the backend.
  * The instance will suggest a consistent way to call the backend, for every HTTP request sent to the backend.
  */
 const client = axios.create({
-    baseURL: config["api"]["endpoint"],
-    timeout: config["api"]["timeout"],
-    // auth...
-    // headers...
+    baseURL: api_endpoint,
+    timeout: api_timeout_milliseconds
 });
 
 /**
@@ -27,7 +25,7 @@ client.interceptors.response.use(undefined, error => {
  */
 export function setToken(token: string | null) {
     client.interceptors.request.use(function (clientConfig: AxiosRequestConfig) {
-        clientConfig.headers["x-auth-token"] = token;
+        clientConfig.headers[token_header_key] = token;
         return clientConfig
     });
 }

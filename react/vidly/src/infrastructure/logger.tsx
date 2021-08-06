@@ -1,15 +1,17 @@
-import config from "../config/config.json";
 import * as Sentry from "@sentry/react";
 import {Integrations} from "@sentry/tracing";
+import {sentry_dsn, sentry_rate} from "./config";
 
 export function init() {
-    Sentry.init({
-        dsn: config["sentry"]["dsn"],
-        integrations: [new Integrations.BrowserTracing()],
-        tracesSampleRate: config["sentry"]["rate"]
-    });
+    if (sentry_dsn && sentry_rate) {
+        Sentry.init({
+            dsn: sentry_dsn,
+            integrations: [new Integrations.BrowserTracing()],
+            tracesSampleRate: +sentry_rate
+        });
+    }
 }
 
 export default function log(error: any) {
-    Sentry.captureException(error);
+    if (Sentry) Sentry.captureException(error);
 }

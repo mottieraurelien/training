@@ -1,5 +1,8 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+# IntelliJ
+.idea
+
 # dependencies
 /node_modules
 /.pnp
@@ -7,6 +10,9 @@
 
 # testing
 /coverage
+
+# npm
+package-lock.json
 
 # production
 /build
@@ -18,6 +24,7 @@
 .env.test.local
 .env.production.local
 
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*

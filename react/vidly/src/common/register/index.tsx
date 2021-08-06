@@ -5,8 +5,9 @@ import ValidationReport from "../form/domain/validationReport";
 import Account from "./domain/account";
 import user from "../../services/userService";
 import auth from "../../services/authService";
+import {token_header_key} from "../../infrastructure/config";
 
-export default function Register({...props}) {
+export default function Register() {
 
     /**
      * STATE
@@ -31,7 +32,7 @@ export default function Register({...props}) {
         try {
             if (account) {
                 const {headers} = await user.register(account);
-                const token = headers["x-auth-token"];
+                const token = headers[token_header_key];
                 auth.loginUsing(token);
                 // Our NavBar has already been mounted so we need to full reload our website to update the NavBar.
                 // It means that we won't use props.history but directly :
