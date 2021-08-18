@@ -1,4 +1,4 @@
-import axios, {AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, {AxiosInstance, AxiosRequestConfig, AxiosResponse} from "axios";
 import log from "./logger";
 import {api_endpoint, api_timeout_milliseconds, token_header_key} from "./config";
 
@@ -6,7 +6,7 @@ import {api_endpoint, api_timeout_milliseconds, token_header_key} from "./config
  * The HTTP client instance from axios that we are gonna use when calling the backend.
  * The instance will suggest a consistent way to call the backend, for every HTTP request sent to the backend.
  */
-const client = axios.create({
+const client: AxiosInstance = axios.create({
     baseURL: api_endpoint,
     timeout: api_timeout_milliseconds
 });
