@@ -1,12 +1,15 @@
-import React from "react";
-import Movie from "./hoc/Movie";
-import Counter from "./components/counter";
-import Users from "./components/users";
+import React, {useState} from "react";
+import MoviePage from "./context/MoviePage";
+import UserContext from "./context/UserContext";
 
 export default function App() {
-    return <React.Fragment>
-        <Movie id={1}/>
-        <Counter/>
-        <Users/>
-    </React.Fragment>
+
+    const [user] = useState({name: "John"});
+    const [theme] = useState("dark");
+    const [language] = useState("en");
+
+    return <UserContext.Provider value={{user, theme, language}}>
+        <MoviePage/>
+    </UserContext.Provider>
+
 }
