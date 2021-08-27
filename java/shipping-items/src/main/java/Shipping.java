@@ -5,7 +5,7 @@ public class Shipping {
     private static final int ITEMS_PER_LARGE_PACKAGE = 5;
     private static final int ITEMS_PER_SMALL_PACKAGE = 1;
 
-    public static int minimalNumberOfPackages(final int items, final int availableLargePackages, final int availableSmallPackages) {
+    public int minimalNumberOfPackages(final int items, final int availableLargePackages, final int availableSmallPackages) {
 
         final int maxNumberOfItems = availableLargePackages * ITEMS_PER_LARGE_PACKAGE + availableSmallPackages * ITEMS_PER_SMALL_PACKAGE;
 
@@ -19,7 +19,8 @@ public class Shipping {
     }
 
     public static void main(final String[] args) {
-        System.out.println(minimalNumberOfPackages(16, 2, 10));
+        final Shipping shipping = new Shipping();
+        System.out.println(shipping.minimalNumberOfPackages(16, 2, 10));
     }
 
 }
