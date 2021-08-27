@@ -12,7 +12,7 @@ public class MovingTotal {
     private final Set<Number> container = new TreeSet<>();
 
     public void append(final int[] values) {
-        for (int value : values) container.add(new Number(value, false));
+        for (final int value : values) container.add(new Number(value, false));
         this.compute();
     }
 
