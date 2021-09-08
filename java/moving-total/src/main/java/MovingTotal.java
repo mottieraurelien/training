@@ -8,6 +8,7 @@ import static java.util.stream.Collectors.toList;
 public class MovingTotal {
 
     private static final Integer GROUP_SIZE = 3;
+    private static final Predicate<Number> ON_NON_TOTAL_NUMBERS = number -> !number.isTotal;
 
     private final Set<Number> container = new TreeSet<>();
 
@@ -18,21 +19,27 @@ public class MovingTotal {
 
     public boolean contains(final int total) {
         final Predicate<Number> theTargetedTotal = number -> number.isTotal && number.value == total;
-        return container.stream().anyMatch(theTargetedTotal);
+        return this.container.stream().anyMatch(theTargetedTotal);
     }
 
     private void compute() {
-        final List<Number> numbers = container.stream().filter(number -> !number.isTotal).collect(toList());
+
+        final List<Number> numbers = this.container.stream()
+                .filter(ON_NON_TOTAL_NUMBERS)
+                .collect(toList());
+
         if (numbers.size() < GROUP_SIZE) return;
+
         final Queue<Integer> buffer = new LinkedList<>();
         for (final Number number : numbers) {
             buffer.add(number.value);
             if (buffer.size() == GROUP_SIZE) {
                 final int total = buffer.stream().mapToInt(Integer::intValue).sum();
-                container.add(new Number(total, true));
+                this.container.add(new Number(total, true));
                 buffer.remove();
             }
         }
+
     }
 
     static class Number implements Comparable<Number> {
