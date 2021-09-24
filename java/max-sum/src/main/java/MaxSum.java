@@ -30,12 +30,13 @@ public class MaxSum {
     }
 
     /**
-     * O(LOG N) which is way faster than O(N LOG N), 108ms to 114ms to run the test with the large list.
+     * O(N LOG N) as well but a bit faster, 108ms to 114ms to run the test with the large list.
      */
     public int findUsingAlternative() {
 
         final Comparator<Integer> fromMaxToMin = reverseOrder();
         final Set<Integer> sortedNumbers = new TreeSet<>(fromMaxToMin);
+        // addAll on a TreeSet => O(n log n).
         sortedNumbers.addAll(this.numbers);
         final List<Integer> extractedSortedNumbers = new ArrayList<>(sortedNumbers);
         return extractedSortedNumbers.get(0) + extractedSortedNumbers.get(1);
