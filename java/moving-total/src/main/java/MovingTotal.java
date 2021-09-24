@@ -1,75 +1,28 @@
-import java.util.*;
-import java.util.function.Predicate;
-
-import static java.lang.Integer.compare;
-import static java.util.Objects.hash;
-import static java.util.stream.Collectors.toList;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 
 public class MovingTotal {
 
     private static final Integer GROUP_SIZE = 3;
-    private static final Predicate<Number> ON_NON_TOTAL_NUMBERS = number -> !number.isTotal;
 
-    private final Set<Number> container = new TreeSet<>();
+    private final Queue<Integer> buffer = new LinkedList<>();
+    private final Set<Integer> totals = new HashSet<>();
 
-    public void append(final int[] values) {
-        for (final int value : values) container.add(new Number(value, false));
-        this.compute();
+    public void append(final int[] numbers) {
+        for (final Integer number : numbers) {
+            this.buffer.add(number);
+            if (this.buffer.size() == GROUP_SIZE) {
+                final int total = this.buffer.stream().mapToInt(Integer::intValue).sum();
+                this.totals.add(total);
+                this.buffer.remove();
+            }
+        }
     }
 
     public boolean contains(final int total) {
-        final Predicate<Number> theTargetedTotal = number -> number.isTotal && number.value == total;
-        return this.container.stream().anyMatch(theTargetedTotal);
-    }
-
-    private void compute() {
-
-        final List<Number> numbers = this.container.stream()
-                .filter(ON_NON_TOTAL_NUMBERS)
-                .collect(toList());
-
-        if (numbers.size() < GROUP_SIZE) return;
-
-        final Queue<Integer> buffer = new LinkedList<>();
-        for (final Number number : numbers) {
-            buffer.add(number.value);
-            if (buffer.size() == GROUP_SIZE) {
-                final int total = buffer.stream().mapToInt(Integer::intValue).sum();
-                this.container.add(new Number(total, true));
-                buffer.remove();
-            }
-        }
-
-    }
-
-    static class Number implements Comparable<Number> {
-
-        private final int value;
-        private final boolean isTotal;
-
-        Number(final int value, final boolean isTotal) {
-            this.value = value;
-            this.isTotal = isTotal;
-        }
-
-        @Override
-        public int compareTo(final Number another) {
-            return compare(this.value, another.value);
-        }
-
-        @Override
-        public boolean equals(final Object anotherObject) {
-            if (this == anotherObject) return true;
-            if (anotherObject == null || getClass() != anotherObject.getClass()) return false;
-            final Number number = (Number) anotherObject;
-            return this.value == number.value;
-        }
-
-        @Override
-        public int hashCode() {
-            return hash(this.value);
-        }
-
+        return this.totals.contains(total);
     }
 
     public static void main(final String[] args) {
