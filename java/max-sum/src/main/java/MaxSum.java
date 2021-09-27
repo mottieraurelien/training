@@ -1,6 +1,4 @@
-import java.util.*;
-
-import static java.util.Comparator.reverseOrder;
+import java.util.List;
 
 public class MaxSum {
 
@@ -26,20 +24,6 @@ public class MaxSum {
                 .sorted(Integer::compareTo)
                 .skip(allOfThemExceptTheTwoLastOnes)
                 .reduce(0, Integer::sum);
-
-    }
-
-    /**
-     * O(N LOG N) as well but a bit faster, 108ms to 114ms to run the test with the large list.
-     */
-    public int findUsingAlternative() {
-
-        final Comparator<Integer> fromMaxToMin = reverseOrder();
-        final Set<Integer> sortedNumbers = new TreeSet<>(fromMaxToMin);
-        // addAll on a TreeSet => O(n log n).
-        sortedNumbers.addAll(this.numbers);
-        final List<Integer> extractedSortedNumbers = new ArrayList<>(sortedNumbers);
-        return extractedSortedNumbers.get(0) + extractedSortedNumbers.get(1);
 
     }
 

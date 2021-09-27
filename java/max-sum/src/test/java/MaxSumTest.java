@@ -42,21 +42,6 @@ class MaxSumTest {
 
     }
 
-    @ParameterizedTest
-    @MethodSource("scenariosLargeLists")
-    void should_return_the_right_max_sum_when_the_list_is_large_using_an_alternative(final List<Integer> largeListOfNumbers, final int expected) {
-
-        // [Arrange]
-        final MaxSum maxSum = new MaxSum(largeListOfNumbers);
-
-        // [Act]
-        final int actual = maxSum.findUsingAlternative();
-
-        // [Assert]
-        assertThat(actual).isEqualTo(expected);
-
-    }
-
     @SuppressWarnings("unused")
     private static Stream<Arguments> scenariosSmallLists() {
         return Stream.of(
@@ -64,6 +49,8 @@ class MaxSumTest {
                 of(List.of(1), 1),
                 of(List.of(1, 2), 3),
                 of(List.of(5, 9, 7, 11), 20),
+                // Case with duplicates, expected 10+10 = 20 :
+                of(List.of(7, 9, 10, 4, 7, 1, 7, 10, 10), 20),
                 of(List.of(11, 20, 17, 19, 23, 4, 18), 43),
                 of(List.of(21, 35, 84, 15, 55, 2), 139)
         );
