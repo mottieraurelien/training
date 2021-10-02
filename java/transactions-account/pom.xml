@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.5</version>
+        <relativePath/>
+    </parent>
+
+    <groupId>aurelienmottier.transactions.account</groupId>
+    <artifactId>transactions-account</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <name>transactions-account</name>
+    <description>Finding performance improvements when retrieving transactions from a database.</description>
+
+    <properties>
+
+        <!-- Project properties -->
+        <java.version>11</java.version>
+        <encoding.type>UTF-8</encoding.type>
+        <project.build.sourceEncoding>${encoding.type}</project.build.sourceEncoding>
+
+        <!-- External dependencies -->
+        <liquibase.version>4.4.3</liquibase.version>
+        <javassist.version>3.28.0-GA</javassist.version>
+        <validation.api.version>2.0.1.Final</validation.api.version>
+        <springdoc.openapi.ui.version>1.5.10</springdoc.openapi.ui.version>
+
+    </properties>
+
+    <dependencies>
+
+        <!-- Undertow as our embedded servlet containers (instead of the default Tomcat one). -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
+
+        <!-- Spring Data JPA (entities, relationships, ...) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <!-- MySQL driver -->
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- Liquibase to manage our database migrations -->
+        <dependency>
+            <groupId>org.liquibase</groupId>
+            <artifactId>liquibase-core</artifactId>
+            <version>${liquibase.version}</version>
+        </dependency>
+
+        <!-- Lombok to generate constructors and getters -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!-- OpenAPI (Swagger) -->
+        <dependency>
+            <groupId>org.springdoc</groupId>
+            <artifactId>springdoc-openapi-ui</artifactId>
+            <version>${springdoc.openapi.ui.version}</version>
+        </dependency>
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.liquibase</groupId>
+                <artifactId>liquibase-maven-plugin</artifactId>
+                <version>${liquibase.version}</version>
+                <configuration>
+                    <propertyFileWillOverride>true</propertyFileWillOverride>
+                    <driver>com.mysql.cj.jdbc.Driver</driver>
+                    <url>jdbc:mysql://${env.MYSQL_TRANSACTIONS_ACCOUNT_HOST}:${env.MYSQL_TRANSACTIONS_ACCOUNT_PORT}/${env.MYSQL_TRANSACTIONS_ACCOUNT_DATABASE}?createDatabaseIfNotExist=true</url>
+                    <username>${env.MYSQL_TRANSACTIONS_ACCOUNT_USERNAME}</username>
+                    <password>${env.MYSQL_TRANSACTIONS_ACCOUNT_PASSWORD}</password>
+                    <databaseChangeLogTableName>LIQUIBASE_HISTORY</databaseChangeLogTableName>
+                    <databaseChangeLogLockTableName>LIQUIBASE_LOCK</databaseChangeLogLockTableName>
+                    <referenceUrl>hibernate:spring:aurelienmottier.transactions.account.domain.entity?dialect=org.hibernate.dialect.MySQL8Dialect</referenceUrl>
+                    <referenceDriver>liquibase.ext.hibernate.database.connection.HibernateDriver</referenceDriver>
+                    <changeLogFile>src/main/resources/db/master.xml</changeLogFile>
+                    <diffChangeLogFile>src/main/resources/db/changelog/diff.xml</diffChangeLogFile>
+                    <promptOnNonLocalDatabase>false</promptOnNonLocalDatabase>
+                </configuration>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.liquibase</groupId>
+                        <artifactId>liquibase-core</artifactId>
+                        <version>${liquibase.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.liquibase.ext</groupId>
+                        <artifactId>liquibase-hibernate5</artifactId>
+                        <version>${liquibase.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.springframework.boot</groupId>
+                        <artifactId>spring-boot-starter-data-jpa</artifactId>
+                        <version>${project.parent.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>javax.validation</groupId>
+                        <artifactId>validation-api</artifactId>
+                        <version>${validation.api.version}</version>
+                    </dependency>
+                    <dependency>
+                        <groupId>org.javassist</groupId>
+                        <artifactId>javassist</artifactId>
+                        <version>${javassist.version}</version>
+                    </dependency>
+                </dependencies>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven-compiler-plugin.version}</version>
+                <configuration>
+                    <release>${java.version}</release>
+                    <encoding>${encoding.type}</encoding>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>

@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                      http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+
+    <changeSet author="mottier_aurelien" id="001-create-table-accounts">
+        <createTable tableName="accounts">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ID"/>
+            </column>
+            <column name="code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="accounts" columnNames="code" constraintName="UK_CODE"/>
+        <rollback>
+            <dropTable cascadeConstraints="true" tableName="accounts"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="002-create-table-transaction_statuses">
+        <createTable tableName="transaction_statuses">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ID"/>
+            </column>
+            <column name="code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="transaction_statuses" columnNames="code" constraintName="UK_CODE"/>
+        <rollback>
+            <dropTable cascadeConstraints="true" tableName="transaction_statuses"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="003-create-table-transaction_types">
+        <createTable tableName="transaction_types">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ID"/>
+            </column>
+            <column name="code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addUniqueConstraint tableName="transaction_types" columnNames="code" constraintName="UK_CODE"/>
+        <rollback>
+            <dropTable cascadeConstraints="true" tableName="transaction_types"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="004-create-table-transactions">
+        <createTable tableName="transactions">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="PK_ID"/>
+            </column>
+            <column name="amount" type="DECIMAL(12, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="updated" type="TIMESTAMP" defaultValueComputed="CURRENT_TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="account_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_status_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="transaction_type_code" type="VARCHAR(20)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="account_code"
+                                 referencedTableName="accounts" referencedColumnNames="code"
+                                 constraintName="FK_ACCOUNT_CODE"
+                                 initiallyDeferred="false" deferrable="false"/>
+        <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="transaction_type_code"
+                                 referencedTableName="transaction_types" referencedColumnNames="code"
+                                 constraintName="FK_TRANSACTION_TYPE_CODE"
+                                 initiallyDeferred="false" deferrable="false"/>
+        <addForeignKeyConstraint baseTableName="transactions" baseColumnNames="transaction_status_code"
+                                 referencedTableName="transaction_statuses" referencedColumnNames="code"
+                                 constraintName="FK_TRANSACTION_STATUS_CODE"
+                                 initiallyDeferred="false" deferrable="false"/>
+        <rollback>
+            <dropTable cascadeConstraints="true" tableName="transactions"/>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="005-load-sample-accounts">
+        <loadData tableName="accounts"
+                  separator=";"
+                  relativeToChangelogFile="true"
+                  file="../data/accounts.csv"
+                  usePreparedStatements="true"/>
+        <rollback>
+            <sql>TRUNCATE TABLE accounts</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="006-load-sample-transaction-types">
+        <loadData tableName="transaction_types"
+                  separator=";"
+                  relativeToChangelogFile="true"
+                  file="../data/transaction_types.csv"
+                  usePreparedStatements="true"/>
+        <rollback>
+            <sql>TRUNCATE TABLE transaction_types</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="007-load-sample-transaction-statuses">
+        <loadData tableName="transaction_statuses"
+                  separator=";"
+                  relativeToChangelogFile="true"
+                  file="../data/transaction_statuses.csv"
+                  usePreparedStatements="true"/>
+        <rollback>
+            <sql>TRUNCATE TABLE transaction_statuses</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="008-load-sample-transactions">
+        <loadData tableName="transactions"
+                  separator=";"
+                  relativeToChangelogFile="true"
+                  file="../data/transactions.csv"
+                  usePreparedStatements="true"/>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <sql>
+            INSERT INTO transactions (account_code, transaction_status_code, transaction_type_code, amount)
+            SELECT account_code, transaction_status_code, transaction_type_code, amount
+            FROM transactions
+        </sql>
+        <rollback>
+            <sql>TRUNCATE TABLE transactions</sql>
+        </rollback>
+    </changeSet>
+
+    <changeSet author="mottier_aurelien" id="009-transactions-create-index-on-multiple-columns">
+        <createIndex indexName="index_multiple_account_status_type" tableName="transactions">
+            <column name="account_code"/>
+            <column name="transaction_status_code"/>
+            <column name="transaction_type_code"/>
+        </createIndex>
+    </changeSet>
+
+    <!--
+        I would have liked partitioning the transactions table but MySQL cannot
+        do this when it's based on foreign keys, like I tried on the transaction_status_code column.
+        I remember that Oracle 9 could already do it in 2013/2014 (was useful on a project), that's why
+        I had this idea.
+
+        SQL Error [1506] [HY000]: Foreign keys are not yet supported in conjunction with partitioning.
+
+        "... are not YET ..." > Maybe in the future...
+    -->
+
+<!--    <changeSet author="mottier_aurelien" id="010-transactions-table-partitioning-by-statuses-group">-->
+<!--        <sql>-->
+<!--            ALTER TABLE transactions-->
+<!--                PARTITION BY LIST COLUMNS(transaction_status_code) (-->
+<!--                    PARTITION partition_active_statuses VALUES IN ('CREATED', 'PENDING', 'AUTHORIZED', 'POSTED'),-->
+<!--                    PARTITION partition_closed_statuses VALUES IN ('SETTLED', 'REFUNDED'),-->
+<!--                    PARTITION partition_failed_statuses VALUES IN ('CANCELLED', 'FAILED', 'EXPIRED', 'VOIDED')-->
+<!--                )-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+<!--    <changeSet author="mottier_aurelien" id="011-update-transactions-partitions-statistics">-->
+<!--        <sql>-->
+<!--            ALTER TABLE transactions-->
+<!--                ANALYZE PARTITION partition_active_statuses,-->
+<!--                ANALYZE PARTITION partition_closed_statuses,-->
+<!--                ANALYZE PARTITION partition_failed_statuses-->
+<!--        </sql>-->
+<!--    </changeSet>-->
+
+</databaseChangeLog>
