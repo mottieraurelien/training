@@ -17,4 +17,6 @@ From the Maven project transactions-account, using the terminal :
 * `mvn spring-boot:run`
 
 ## 4 - Test REST endpoints
-
+Install Postman and import the collection (src/main/resources/postman_collection.json).
+Run the scenario you want (feel free to modify then if needed). You should have everything
+you need to paginate, filter and sort the transactions.

@@ -1,0 +1,297 @@
+{
+	"info": {
+		"_postman_id": "209b3211-a832-4ee1-b6d3-8b9d21bdb4f6",
+		"name": "Transactions",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET by account codes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_001\", \"ACCOUNT_002\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/accounts",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						"accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by status codes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/statuses",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						"statuses"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by type codes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/types",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						"types"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_004\", \"ACCOUNT_005\"],\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\"],\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\"]\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes - large set",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_004\", \"ACCOUNT_005\", \"ACCOUNT_007\"],\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\", \"PENDING\"],\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\", \"FPS\"],\r\n    \"size\":2000,\r\n    \"page\":1\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes - page number",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_004\", \"ACCOUNT_005\"],\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\"],\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\"],\r\n    \"page\":13\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes - page size",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_004\", \"ACCOUNT_005\"],\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\"],\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\"],\r\n    \"size\":5\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes - page size and number",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"ACCOUNT_004\", \"ACCOUNT_005\"],\r\n    \"statusCodes\":[\"CREATED\", \"EXPIRED\"],\r\n    \"typeCodes\":[\"EPS\", \"CREDIT_CARD\"],\r\n    \"size\":5,\r\n    \"page\":68\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GET by all codes - page size and number and sort",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountCodes\":[\"account_004\", \"ACCOUNT_005\"],\r\n    \"statusCodes\":[\"CREATED\", \"exPIred\"],\r\n    \"typeCodes\":[\"EpS\", \"CREDIT_CARD\"],\r\n    \"size\":17,\r\n    \"page\":3,\r\n    \"sort\": {\r\n       \"direction\": \"DESC\",\r\n       \"properties\": [\"id\"]\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/transactions/",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"transactions",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
