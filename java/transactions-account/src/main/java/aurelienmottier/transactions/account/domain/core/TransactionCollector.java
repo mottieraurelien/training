@@ -7,11 +7,11 @@ import aurelienmottier.transactions.account.infrastructure.repository.Transactio
 import aurelienmottier.transactions.account.infrastructure.service.TransactionService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import java.util.List;
 
-@Service
+@Component
 @AllArgsConstructor
 public class TransactionCollector implements TransactionService {
 
