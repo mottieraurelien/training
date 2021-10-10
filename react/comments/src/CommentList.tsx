@@ -1,4 +1,5 @@
 import React, {ChangeEvent, FormEvent, useMemo, useState} from "react";
+import Comment from "./Comment";
 
 export default function CommentList() {
 
@@ -32,7 +33,7 @@ export default function CommentList() {
         <ul>
             {
                 comments.map(function (comment: string, index: number) {
-                    return <li key={index}>{comment}</li>
+                    return <Comment key={index} value={comment}/>
                 })
             }
         </ul>
