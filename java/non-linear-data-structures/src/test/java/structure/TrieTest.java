@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
@@ -12,6 +13,7 @@ import java.util.regex.Pattern;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TrieTest {
@@ -46,6 +48,10 @@ class TrieTest {
         assertThat(actual.contains("pick")).isTrue();
         assertThat(actual.contains("pickle")).isTrue();
         assertThat(actual.contains("picture")).isTrue();
+
+        // Non-existing word (since not complete, only prefixes) :
+        assertThat(actual.contains("book")).isTrue();
+        assertThat(actual.contains("pictur")).isFalse();
         assertThat(actual.contains("pictionary")).isFalse();
 
     }
@@ -75,9 +81,6 @@ class TrieTest {
         end = System.nanoTime();
         System.out.println("Longest word found in " + (end - start) / 1000 + "µs");
         assertThat(actualLongestWord).isTrue();
-
-        int result = 'f' - 'a';
-        System.out.println(result);
 
     }
 
@@ -111,6 +114,34 @@ class TrieTest {
 
         // [Assert]
         assertThat(actual.contains(null)).isFalse();
+
+    }
+
+    @Test
+    void should_first_print_the_node_value_when_traversing_the_trie_using_pre_order_approach() {
+
+        // [Arrange]
+        final Trie<String> trie = new Trie<>(SPLITERATOR, singletonList("testing"));
+
+        // [Act]
+        final Collection<String> actual = trie.traversePreOrder();
+
+        // [Assert]
+        assertThat(actual).containsExactly("t", "e", "s", "t", "i", "n", "g");
+
+    }
+
+    @Test
+    void should_print_the_node_after_traversing_the_nodes_value_when_traversing_the_trie_using_post_order_approach() {
+
+        // [Arrange]
+        final Trie<String> trie = new Trie<>(SPLITERATOR, singletonList("testing"));
+
+        // [Act]
+        final Collection<String> actual = trie.traversePostOrder();
+
+        // [Assert]
+        assertThat(actual).containsExactly("g", "n", "i", "t", "s", "e", "t");
 
     }
 
