@@ -43,6 +43,7 @@ public class Trie<T> {
     }
 
     public boolean contains(final T value) {
+        if(value == null) return false;
         TrieNode<T> node = this.root;
         final T[] pieces = spliterator.apply(value);
         for (final T piece : pieces) {

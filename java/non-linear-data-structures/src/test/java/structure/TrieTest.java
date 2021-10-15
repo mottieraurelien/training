@@ -5,29 +5,33 @@ import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.function.Function;
+import java.util.regex.Pattern;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static org.assertj.core.api.Assertions.assertThat;
 
 class TrieTest {
 
-    private static final Function<String, String[]> SPLITERATOR = string -> string.split("", 0);
+    private static final Pattern PATTERN = Pattern.compile("");
+    private static final Function<String, String[]> SPLITERATOR = string -> PATTERN.split(string, 0);
 
-    private static final List<String> SAMPLE = asList(
+    private static final List<String> SAMPLE_DICTIONARY = asList(
             "boy", "book", "border", "cat", "dog",
             "doctor", "fine", "finest", "figure", "pick",
             "pickle", "picture"
     );
 
+    private static final Path FULL_DICTIONARY = get("src/test/resources/words.txt");
+
     @Test
     void should_load_the_dictionary_when_the_sample_is_not_empty() {
 
         // [Act]
-        final Trie<String> actual = new Trie<>(SPLITERATOR, SAMPLE);
+        final Trie<String> actual = new Trie<>(SPLITERATOR, SAMPLE_DICTIONARY);
 
         // [Assert]
         assertThat(actual.contains("boy")).isTrue();
@@ -42,6 +46,7 @@ class TrieTest {
         assertThat(actual.contains("pick")).isTrue();
         assertThat(actual.contains("pickle")).isTrue();
         assertThat(actual.contains("picture")).isTrue();
+        assertThat(actual.contains("pictionary")).isFalse();
 
     }
 
@@ -50,17 +55,16 @@ class TrieTest {
 
         // [Arrange]
         final Trie<String> trie = new Trie<>(SPLITERATOR);
-        final Path dictionaryPath = Paths.get("src/test/resources/words.txt");
 
         // [Act]
         long start = System.nanoTime();
-        Files.lines(dictionaryPath, UTF_8).forEach(trie::add);
+        Files.lines(FULL_DICTIONARY, UTF_8).forEach(trie::add);
         long end = System.nanoTime();
         System.out.println("Dictionary loaded in " + (end - start) / 1000000 + "ms");
 
         // [Assert] that the shortest word is present.
         start = System.nanoTime();
-        final boolean actualShortestWord = trie.contains("Z");
+        final boolean actualShortestWord = trie.contains("monkey");
         end = System.nanoTime();
         System.out.println("Shortest word found in " + (end - start) / 1000 + "µs");
         assertThat(actualShortestWord).isTrue();
@@ -71,6 +75,42 @@ class TrieTest {
         end = System.nanoTime();
         System.out.println("Longest word found in " + (end - start) / 1000 + "µs");
         assertThat(actualLongestWord).isTrue();
+
+        int result = 'f' - 'a';
+        System.out.println(result);
+
+    }
+
+    @Test
+    void should_return_true_when_the_trie_contains_the_word() {
+
+        // [Act]
+        final Trie<String> actual = new Trie<>(SPLITERATOR, SAMPLE_DICTIONARY);
+
+        // [Assert]
+        assertThat(actual.contains("boy")).isTrue();
+
+    }
+
+    @Test
+    void should_return_false_when_the_trie_does_not_contain_the_word() {
+
+        // [Act]
+        final Trie<String> actual = new Trie<>(SPLITERATOR, SAMPLE_DICTIONARY);
+
+        // [Assert]
+        assertThat(actual.contains("testing")).isFalse();
+
+    }
+
+    @Test
+    void should_return_false_when_the_word_is_null() {
+
+        // [Act]
+        final Trie<String> actual = new Trie<>(SPLITERATOR, SAMPLE_DICTIONARY);
+
+        // [Assert]
+        assertThat(actual.contains(null)).isFalse();
 
     }
 
