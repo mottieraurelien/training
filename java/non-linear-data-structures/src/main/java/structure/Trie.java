@@ -69,8 +69,15 @@ public class Trie<T> {
         return values;
     }
 
+    public void remove(final T value) {
+        if (value == null) return;
+        final T[] pieces = spliterator.apply(value);
+        if (pieces.length == 0) return;
+        this.removeWithPostOrder(this.root, pieces, 0);
+    }
+
     private void traversePreOrder(final Collection<T> values, final TrieNode<T> node) {
-        if(node != this.root) values.add(node.getValue());
+        if (node != this.root) values.add(node.getValue());
         for (final TrieNode<T> child : node.getChildren())
             this.traversePreOrder(values, child);
     }
@@ -78,7 +85,21 @@ public class Trie<T> {
     private void traversePostOrder(final Collection<T> values, final TrieNode<T> node) {
         for (final TrieNode<T> child : node.getChildren())
             this.traversePostOrder(values, child);
-        if(node != this.root) values.add(node.getValue());
+        if (node != this.root) values.add(node.getValue());
+    }
+
+    private void removeWithPostOrder(final TrieNode<T> node, final T[] pieces, final int index) {
+        if (index == pieces.length) {
+            node.isNotLeafAnymore();
+            return;
+        }
+        final T piece = pieces[index];
+        final Optional<TrieNode<T>> optionalChild = node.getChild(piece);
+        if (optionalChild.isEmpty()) return;
+        final TrieNode<T> child = optionalChild.get();
+        final int nextIndex = index + 1;
+        this.removeWithPostOrder(child, pieces, nextIndex);
+        if (child.isOrphanParent() && !child.isLeaf()) node.remove(child);
     }
 
     private void load(final Iterable<T> values) {

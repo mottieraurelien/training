@@ -37,12 +37,24 @@ public class TrieNode<T> {
         this.isLeaf = true;
     }
 
+    public void isNotLeafAnymore() {
+        this.isLeaf = false;
+    }
+
     public T getValue() {
         return this.value;
     }
 
     public Collection<TrieNode<T>> getChildren() {
         return this.children.values();
+    }
+
+    public boolean isOrphanParent() {
+        return this.children.isEmpty();
+    }
+
+    public void remove(final TrieNode<T> child) {
+        this.children.remove(child.value);
     }
 
     @Override
