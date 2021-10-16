@@ -72,7 +72,8 @@ public class Trie<T> {
 
     public boolean contains(final T input) {
         if (input == null) return false;
-        final Optional<TrieNode<T>> node = this.findLastNodeOf(input);
+        final T[] pieces = this.spliterator.apply(input);
+        final Optional<TrieNode<T>> node = this.recursiveFindLastNodeOf(this.root, pieces, 0);
         return node.isPresent() && node.get().isAnEnd();
     }
 
@@ -101,16 +102,16 @@ public class Trie<T> {
     public Collection<T> suggestions(final T prefix, final int maximumNumberOfSuggestions) {
         final Collection<T> suggestions = new ArrayList<>();
         if (prefix == null) return suggestions;
-        final Optional<TrieNode<T>> prefixLastNode = this.findLastNodeOf(prefix);
+        final T[] pieces = this.spliterator.apply(prefix);
+        final Optional<TrieNode<T>> prefixLastNode = this.recursiveFindLastNodeOf(this.root, pieces, 0);
         if (prefixLastNode.isEmpty()) return suggestions;
         final TrieNode<T> node = prefixLastNode.get();
         if (node.isOrphanParent()) return suggestions;
-        final T[] pieces = this.spliterator.apply(prefix);
-        this.complete(suggestions, maximumNumberOfSuggestions, pieces, node, true);
+        this.suggestions(suggestions, maximumNumberOfSuggestions, pieces, node, true);
         return suggestions;
     }
 
-    private void complete(final Collection<T> suggestions, final int maximumNumberOfSuggestions, final T[] pieces, final TrieNode<T> node, final boolean starting) {
+    private void suggestions(final Collection<T> suggestions, final int maximumNumberOfSuggestions, final T[] pieces, final TrieNode<T> node, final boolean starting) {
         if (suggestions.size() == maximumNumberOfSuggestions) return;
 
         final T[] newPieces = copyOf(pieces, pieces.length + (starting ? 0 : 1));
@@ -122,7 +123,7 @@ public class Trie<T> {
         }
 
         for (final TrieNode<T> child : node.getChildren()) {
-            this.complete(suggestions, maximumNumberOfSuggestions, newPieces, child, false);
+            this.suggestions(suggestions, maximumNumberOfSuggestions, newPieces, child, false);
         }
 
     }
@@ -153,15 +154,18 @@ public class Trie<T> {
         if (child.isOrphanParent() && !child.isAnEnd()) node.remove(child);
     }
 
-    private Optional<TrieNode<T>> findLastNodeOf(final T prefix) {
-        TrieNode<T> node = this.root;
-        final T[] pieces = this.spliterator.apply(prefix);
-        for (final T piece : pieces) {
-            final Optional<TrieNode<T>> next = node.getChild(piece);
-            if (next.isEmpty()) return empty();
-            node = next.get();
-        }
-        return of(node);
+    private Optional<TrieNode<T>> recursiveFindLastNodeOf(final TrieNode<T> node, final T[] pieces, final int index) {
+
+        if (pieces.length == index)
+            return of(node);
+
+        final T piece = pieces[index];
+        final Optional<TrieNode<T>> child = node.getChild(piece);
+
+        if (child.isEmpty())
+            return empty();
+
+        return this.recursiveFindLastNodeOf(child.get(), pieces, index + 1);
     }
 
     private void load(final Iterable<T> values) {
