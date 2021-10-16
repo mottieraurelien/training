@@ -29,6 +29,9 @@ import static java.util.Optional.of;
  */
 public class Trie<T> {
 
+    private int numberOfEnds;
+    private int numberOfNodes;
+
     private final TrieNode<T> root;
     private final Function<T, T[]> spliterator;
     private final Function<T[], T> joiner;
@@ -46,6 +49,14 @@ public class Trie<T> {
         this.load(values);
     }
 
+    public int getNumberOfEnds() {
+        return this.numberOfEnds;
+    }
+
+    public int getNumberOfNodes() {
+        return this.numberOfNodes;
+    }
+
     public void add(final T value) {
         TrieNode<T> node = this.root;
         final T[] pieces = this.spliterator.apply(value);
@@ -53,8 +64,10 @@ public class Trie<T> {
             final Optional<TrieNode<T>> next = node.getChild(piece);
             if (next.isPresent()) node = next.get();
             else node = node.add(piece);
+            this.numberOfNodes++;
         }
         node.isNowAnEnd();
+        this.numberOfEnds++;
     }
 
     public boolean contains(final T input) {

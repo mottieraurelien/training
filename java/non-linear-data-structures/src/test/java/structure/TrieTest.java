@@ -11,17 +11,26 @@ import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 
+import static java.lang.String.join;
+import static java.lang.System.nanoTime;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static java.nio.file.Paths.get;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
+import static java.util.regex.Pattern.compile;
 import static org.assertj.core.api.Assertions.assertThat;
 
+/**
+ * Reference laptop : Intel 7300HQ (4C/4T) + 16GB of RAM (2400Mhz) + low end SSD 120GB (SATAIII).
+ */
 class TrieTest {
 
-    private static final Pattern PATTERN = Pattern.compile("");
+    private static final Function<Long, Long> FROM_NANOSECOND_TO_MICROSECOND = duration -> duration / 1000;
+    private static final Function<Long, Long> FROM_NANOSECOND_TO_SECOND = duration -> duration / 1000000000;
+
+    private static final Pattern PATTERN = compile("");
+    private static final Function<String[], String> JOINER = strings -> join("", strings);
     private static final Function<String, String[]> SPLITERATOR = string -> PATTERN.split(string, 0);
-    private static final Function<String[], String> JOINER = strings -> String.join("", strings);
 
     private static final List<String> SAMPLE_DICTIONARY = asList(
             "boy", "book", "border", "car", "care",
@@ -34,10 +43,11 @@ class TrieTest {
 
     @BeforeAll
     public static void loadTheCompleteEnglishDictionaryThatContainsThreeHundredSeventyThousandsWords() throws IOException {
-        final long start = System.nanoTime();
+        final long start = nanoTime();
         Files.lines(FULL_DICTIONARY, UTF_8).forEach(LARGE_TRIE::add);
-        final long end = System.nanoTime();
-        System.out.println("English dictionary loaded in " + (end - start) / 1000000 + "ms");
+        final long end = nanoTime();
+        final Long actualDurationInSecond = FROM_NANOSECOND_TO_SECOND.apply(end - start);
+        assertThat(actualDurationInSecond).isLessThan(1);
     }
 
     @Test
@@ -78,18 +88,20 @@ class TrieTest {
         // Nothing since the large trie is built before all unit tests, meaning only one.
 
         // [Assert] that the shortest word is present.
-        long start = System.nanoTime();
-        final boolean actualShortestWord = LARGE_TRIE.contains("monkey");
-        long end = System.nanoTime();
-        System.out.println("Shortest word found in " + (end - start) / 1000 + "µs");
-        assertThat(actualShortestWord).isTrue();
+        long start = nanoTime();
+        final boolean actualFirstShortestWord = LARGE_TRIE.contains("a");
+        long end = nanoTime();
+        assertThat(actualFirstShortestWord).isTrue();
+        Long actualDurationInMicrosecond = FROM_NANOSECOND_TO_MICROSECOND.apply(end - start);
+        assertThat(actualDurationInMicrosecond).isLessThan(100);
 
         // [Assert] that the longest word is present.
-        start = System.nanoTime();
-        final boolean actualLongestWord = LARGE_TRIE.contains("trinitrophenylmethylnitramine");
-        end = System.nanoTime();
-        System.out.println("Longest word found in " + (end - start) / 1000 + "µs");
-        assertThat(actualLongestWord).isTrue();
+        start = nanoTime();
+        final boolean actualUniqueLongestWord = LARGE_TRIE.contains("dichlorodiphenyltrichloroethane");
+        end = nanoTime();
+        assertThat(actualUniqueLongestWord).isTrue();
+        actualDurationInMicrosecond = FROM_NANOSECOND_TO_MICROSECOND.apply(end - start);
+        assertThat(actualDurationInMicrosecond).isLessThan(100);
 
     }
 
@@ -283,13 +295,28 @@ class TrieTest {
 
         // [Act]
         final int maximumNumberOfSuggestions = 8;
-        final long start = System.nanoTime();
+        final long start = nanoTime();
         final Collection<String> actual = LARGE_TRIE.suggestions("boa", maximumNumberOfSuggestions);
-        final long end = System.nanoTime();
-        System.out.println("Suggestions " + maximumNumberOfSuggestions + " found in " + (end - start) / 1000 + "µs");
+        final long end = nanoTime();
 
         // [Assert]
         assertThat(actual).containsExactly("boa", "boaedon", "boagane", "boanbura", "boanergean", "boanerges", "boanergism", "boanthropy");
+        final Long actualDuration = FROM_NANOSECOND_TO_MICROSECOND.apply(end - start);
+        assertThat(actualDuration).isLessThan(500);
+
+    }
+
+    @Test
+    void should_return_update_the_statistics_when_adding_a_new_word() {
+
+        // [Act]
+        final int actualNumberOfWords = LARGE_TRIE.getNumberOfEnds();
+        final int actualNumberOfLetters = LARGE_TRIE.getNumberOfNodes();
+
+        // [Assert]
+        assertThat(actualNumberOfWords).isEqualTo(370103);
+        // Some letters are not the end of words that's why we have more than three million and half nodes.
+        assertThat(actualNumberOfLetters).isEqualTo(3494697);
 
     }
 
