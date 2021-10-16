@@ -1,12 +1,17 @@
 package data;
 
 import java.util.Collection;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Optional;
 
 import static java.util.Optional.ofNullable;
 
+/**
+ * If using this data structure with complex object (not String, Integer, ...) then
+ * I strongly recommend overriding the HASHCODE method (of the complex object) since
+ * we use the object as keys in our children map.
+ */
 public class TrieNode<T> {
 
     private final T value;
@@ -16,7 +21,7 @@ public class TrieNode<T> {
     public TrieNode(final T value) {
         this.value = value;
         this.isAnEnd = false;
-        this.children = new HashMap<>();
+        this.children = new LinkedHashMap<>();
     }
 
     public T getValue() {
