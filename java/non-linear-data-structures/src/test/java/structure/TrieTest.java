@@ -33,7 +33,7 @@ class TrieTest {
     private static final Path FULL_DICTIONARY = get("src/test/resources/words.txt");
 
     @BeforeAll
-    public static void loadTheCompleteEnglishDictionaryThatContainsFourHundredThousandsWords() throws IOException {
+    public static void loadTheCompleteEnglishDictionaryThatContainsThreeHundredSeventyThousandsWords() throws IOException {
         final long start = System.nanoTime();
         Files.lines(FULL_DICTIONARY, UTF_8).forEach(LARGE_TRIE::add);
         final long end = System.nanoTime();
@@ -289,7 +289,7 @@ class TrieTest {
         System.out.println("Suggestions " + maximumNumberOfSuggestions + " found in " + (end - start) / 1000 + "µs");
 
         // [Assert]
-        assertThat(actual).containsExactly("boa", "boa-constrictor", "boagane", "boanergean", "boanergism", "boanthropy", "boarcite", "board");
+        assertThat(actual).containsExactly("boa", "boaedon", "boagane", "boanbura", "boanergean", "boanerges", "boanergism", "boanthropy");
 
     }
 
