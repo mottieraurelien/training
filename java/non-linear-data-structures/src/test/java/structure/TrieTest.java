@@ -328,16 +328,16 @@ class TrieTest {
     @ParameterizedTest
     @MethodSource("scenarios")
     void should_find_the_longest_common_prefix_when_providing_valid_and_invalid_words(final Iterable<String> inputs,
-                                                                                      final String expectedLongestPrefix) {
+                                                                                      final String expected) {
 
         // [Arrange]
         final Trie<String> trie = new Trie<>(SPLITERATOR, JOINER, inputs);
 
         // [Act]
-        final String actualLongestPrefix = trie.findLongestCommonPrefix(new String[0]);
+        final String actual = trie.findLongestCommonPrefix(new String[0]);
 
         // [Assert]
-        assertThat(actualLongestPrefix).isEqualTo(expectedLongestPrefix);
+        assertThat(actual).isEqualTo(expected);
 
     }
 
