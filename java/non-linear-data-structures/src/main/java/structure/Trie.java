@@ -31,6 +31,7 @@ public class Trie<T> {
 
     private int numberOfEnds;
     private int numberOfNodes;
+    private T[] shortestEnd;
 
     private final TrieNode<T> root;
     private final Function<T, T[]> spliterator;
@@ -58,8 +59,11 @@ public class Trie<T> {
     }
 
     public void add(final T value) {
+        if (value == null) return;
         TrieNode<T> node = this.root;
         final T[] pieces = this.spliterator.apply(value);
+        if (this.shortestEnd == null) this.shortestEnd = pieces;
+        else if (pieces.length < this.shortestEnd.length) this.shortestEnd = pieces;
         for (final T piece : pieces) {
             final Optional<TrieNode<T>> next = node.getChild(piece);
             if (next.isPresent()) node = next.get();
@@ -94,6 +98,22 @@ public class Trie<T> {
         final T[] pieces = this.spliterator.apply(value);
         if (pieces.length == 0) return;
         this.removeWithPostOrder(this.root, pieces, 0);
+    }
+
+    public T findLongestCommonPrefix(final T[] emptyArray) {
+
+        final Collection<T> longestCommonPrefixPieces = new ArrayList<>();
+        final int maxLength = this.shortestEnd.length;
+
+        TrieNode<T> node = this.root;
+        while (longestCommonPrefixPieces.size() < maxLength) {
+            if (node.hasNotOnlyOneChild()) break;
+            node = node.getTheOnlyChild();
+            longestCommonPrefixPieces.add(node.getValue());
+        }
+
+        final T[] pieces = longestCommonPrefixPieces.toArray(emptyArray);
+        return this.joiner.apply(pieces);
     }
 
     /**

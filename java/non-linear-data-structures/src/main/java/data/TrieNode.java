@@ -40,8 +40,16 @@ public class TrieNode<T> {
         this.isAnEnd = false;
     }
 
+    public TrieNode<T> getTheOnlyChild() {
+        return this.children.entrySet().iterator().next().getValue();
+    }
+
     public Collection<TrieNode<T>> getChildren() {
         return this.children.values();
+    }
+
+    public boolean hasNotOnlyOneChild() {
+        return this.isOrphanParent() || this.children.size() > 1;
     }
 
     public boolean isOrphanParent() {

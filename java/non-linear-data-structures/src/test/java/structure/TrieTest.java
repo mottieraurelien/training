@@ -2,6 +2,9 @@ package structure;
 
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.function.Function;
 import java.util.regex.Pattern;
+import java.util.stream.Stream;
 
 import static java.lang.String.join;
 import static java.lang.System.nanoTime;
@@ -19,6 +23,7 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.regex.Pattern.compile;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.params.provider.Arguments.of;
 
 /**
  * Reference laptop : Intel 7300HQ (4C/4T) + 16GB of RAM (2400Mhz) + low end SSD 120GB (SATAIII).
@@ -318,6 +323,33 @@ class TrieTest {
         // Some letters are not the end of words that's why we have more than three million and half nodes.
         assertThat(actualNumberOfLetters).isEqualTo(3494697);
 
+    }
+
+    @ParameterizedTest
+    @MethodSource("scenarios")
+    void should_find_the_longest_common_prefix_when_providing_valid_and_invalid_words(final Iterable<String> inputs,
+                                                                                      final String expectedLongestPrefix) {
+
+        // [Arrange]
+        final Trie<String> trie = new Trie<>(SPLITERATOR, JOINER, inputs);
+
+        // [Act]
+        final String actualLongestPrefix = trie.findLongestCommonPrefix(new String[0]);
+
+        // [Assert]
+        assertThat(actualLongestPrefix).isEqualTo(expectedLongestPrefix);
+
+    }
+
+    @SuppressWarnings("unused")
+    private static Stream<Arguments> scenarios() {
+        return Stream.of(
+                of(asList("card", "care"), "car"),
+                of(asList("car", "care"), "car"),
+                of(singletonList("car"), "car"),
+                of(asList("car", "dog"), ""),
+                of(asList("boanbura", "boanergean", "boanergism"), "boan")
+        );
     }
 
 }
