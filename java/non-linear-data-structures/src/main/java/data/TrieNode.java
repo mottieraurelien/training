@@ -10,12 +10,12 @@ import static java.util.Optional.ofNullable;
 public class TrieNode<T> {
 
     private final T value;
-    private boolean containsTheLastPiece;
+    private boolean isAnEnd;
     private final Map<T, TrieNode<T>> children;
 
     public TrieNode(final T value) {
         this.value = value;
-        this.containsTheLastPiece = false;
+        this.isAnEnd = false;
         this.children = new HashMap<>();
     }
 
@@ -23,16 +23,16 @@ public class TrieNode<T> {
         return this.value;
     }
 
-    public boolean containsLastPiece() {
-        return this.containsTheLastPiece;
+    public boolean isAnEnd() {
+        return this.isAnEnd;
     }
 
-    public void nowContainsTheLastPiece() {
-        this.containsTheLastPiece = true;
+    public void isNowAnEnd() {
+        this.isAnEnd = true;
     }
 
-    public void doesNotContainTheLastPieceAnymore() {
-        this.containsTheLastPiece = false;
+    public void isNotAnEndAnymore() {
+        this.isAnEnd = false;
     }
 
     public Collection<TrieNode<T>> getChildren() {
