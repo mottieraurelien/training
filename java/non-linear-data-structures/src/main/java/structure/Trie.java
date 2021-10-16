@@ -42,7 +42,7 @@ public class Trie<T> {
             if (next.isPresent()) node = next.get();
             else node = node.add(piece);
         }
-        node.isNowLeaf();
+        node.nowContainsTheLastPiece();
     }
 
     public boolean contains(final T value) {
@@ -54,7 +54,7 @@ public class Trie<T> {
             if (next.isEmpty()) return false;
             node = next.get();
         }
-        return node.isLeaf();
+        return node.containsLastPiece();
     }
 
     public Collection<T> traversePreOrder() {
@@ -90,7 +90,7 @@ public class Trie<T> {
 
     private void removeWithPostOrder(final TrieNode<T> node, final T[] pieces, final int index) {
         if (index == pieces.length) {
-            node.isNotLeafAnymore();
+            node.doesNotContainTheLastPieceAnymore();
             return;
         }
         final T piece = pieces[index];
@@ -99,7 +99,7 @@ public class Trie<T> {
         final TrieNode<T> child = optionalChild.get();
         final int nextIndex = index + 1;
         this.removeWithPostOrder(child, pieces, nextIndex);
-        if (child.isOrphanParent() && !child.isLeaf()) node.remove(child);
+        if (child.isOrphanParent() && !child.containsLastPiece()) node.remove(child);
     }
 
     private void load(final Iterable<T> values) {

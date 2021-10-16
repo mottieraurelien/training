@@ -10,13 +10,37 @@ import static java.util.Optional.ofNullable;
 public class TrieNode<T> {
 
     private final T value;
-    private boolean isLeaf;
+    private boolean containsTheLastPiece;
     private final Map<T, TrieNode<T>> children;
 
     public TrieNode(final T value) {
         this.value = value;
-        this.isLeaf = false;
+        this.containsTheLastPiece = false;
         this.children = new HashMap<>();
+    }
+
+    public T getValue() {
+        return this.value;
+    }
+
+    public boolean containsLastPiece() {
+        return this.containsTheLastPiece;
+    }
+
+    public void nowContainsTheLastPiece() {
+        this.containsTheLastPiece = true;
+    }
+
+    public void doesNotContainTheLastPieceAnymore() {
+        this.containsTheLastPiece = false;
+    }
+
+    public Collection<TrieNode<T>> getChildren() {
+        return this.children.values();
+    }
+
+    public boolean isOrphanParent() {
+        return this.children.isEmpty();
     }
 
     public Optional<TrieNode<T>> getChild(final T childValue) {
@@ -27,30 +51,6 @@ public class TrieNode<T> {
         final TrieNode<T> childNode = new TrieNode<>(childValue);
         this.children.put(childValue, childNode);
         return childNode;
-    }
-
-    public boolean isLeaf() {
-        return this.isLeaf;
-    }
-
-    public void isNowLeaf() {
-        this.isLeaf = true;
-    }
-
-    public void isNotLeafAnymore() {
-        this.isLeaf = false;
-    }
-
-    public T getValue() {
-        return this.value;
-    }
-
-    public Collection<TrieNode<T>> getChildren() {
-        return this.children.values();
-    }
-
-    public boolean isOrphanParent() {
-        return this.children.isEmpty();
     }
 
     public void remove(final TrieNode<T> child) {
