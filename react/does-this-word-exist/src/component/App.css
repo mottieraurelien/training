@@ -1,0 +1,40 @@
+.dictionary {
+    color: white;
+    flex-direction: column;
+}
+
+.dictionary-header {
+    text-shadow: rgba(0, 0, 0, 0.1) 2px 2px 2px;
+    font-weight: bold;
+    font-size: 35px;
+    line-height: 25px;
+    text-align: left;
+}
+
+.dictionary-upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.dictionary-body {
+    min-width: 250px;
+    max-width: 500px;
+    height: 50px;
+    background-color: white;
+    border-radius: 25px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.dictionary-input {
+    border-width: 0;
+    border: none;
+    width: 90%;
+    height: 90%;
+}
+
+.dictionary-input:focus {
+    outline: none !important;
+}
