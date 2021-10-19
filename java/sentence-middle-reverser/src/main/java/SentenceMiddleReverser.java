@@ -33,25 +33,26 @@ public class SentenceMiddleReverser {
         if (words.length == 2)
             return firstWord + SPACE + lastWord;
 
-        final String wordInTheMiddle = words[1];
-
-        if (words.length == 3)
+        if (words.length == 3) {
+            final String wordInTheMiddle = words[1];
             return firstWord + SPACE + wordInTheMiddle + SPACE + lastWord;
+        }
 
-        // Starting from four words in the sentence, the sequence can change.
+        // Starting from four words in the sentence, the sequence can change
+        // since we have more than four words "in the middle".
         final List<String> reversedWords = new ArrayList<>();
+
+        // The place of the first word does not change :
         reversedWords.add(firstWord);
 
+        // The words in the middle must be changed :
         final Stack<String> middle = new Stack<>();
-        for (int i = 1; i <= words.length - 2; i++) {
-            final String word = words[i];
-            middle.push(word);
-        }
-
-        while (!middle.isEmpty()) {
+        for (int i = 1; i <= words.length - 2; i++)
+            middle.push(words[i]);
+        while (!middle.isEmpty())
             reversedWords.add(middle.pop());
-        }
 
+        // The place of the last word does not change :
         reversedWords.add(lastWord);
 
         return join(SPACE, reversedWords);
