@@ -1,9 +1,8 @@
 package aurelienmottier.bowling.game;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Pattern;
 
+import static aurelienmottier.bowling.game.Shot.from;
 import static java.util.regex.Pattern.compile;
 
 /**
@@ -16,69 +15,58 @@ public class Game {
     private static final Pattern SPLITTER = compile("");
 
     private int total;
-    private int bonus;
 
-    public Game(final String dashboard) {
-        final List<Frame> frames = this.split(dashboard);
-        this.computeTotalFrom(frames);
+    public Game(final String shotsSequence) {
+        this.compute(shotsSequence);
     }
 
     public int total() {
         return this.total;
     }
 
-    private List<Frame> split(final String sequenceOfShots) {
+    /**
+     * Time complexity is O(n).
+     */
+    private void compute(final String shotsSequence) {
 
-        final List<Frame> frames = new ArrayList<>();
-
-        final String[] shots = SPLITTER.split(sequenceOfShots);
+        final String[] shots = SPLITTER.split(shotsSequence);
 
         Shot previousShot = null;
-
-        int frameCounter = 0;
-        Frame frame = null;
+        Frame previousFrame = null;
 
         for (final String shotLabel : shots) {
-            final Shot shot = Shot.from(shotLabel);
-            if (previousShot != null && previousShot.isRegular() && !shot.isStrike()) {
-                frame = new Frame(previousShot, shot);
-                frames.add(frame);
-                frameCounter++;
-                previousShot = null;
-            } else if (shot.isStrike()) {
+
+            final Shot shot = from(shotLabel);
+
+            Frame frame = null;
+
+            if (shot.isStrike())
                 frame = new Frame(shot);
-                frames.add(frame);
-                frameCounter++;
-                previousShot = null;
-            } else {
+
+            if (shot.isSpare() || (previousShot != null && previousShot.isRegular() && shot.isRegular()))
+                frame = new Frame(previousShot, shot);
+
+            if (frame == null) {
                 previousShot = shot;
+                continue;
             }
 
-            if (frameCounter == 10 && previousShot != null)
-                this.bonus = shot.getPoints();
+            this.updateTotal(previousFrame, frame);
+
+            previousShot = null;
+            previousFrame = frame;
 
         }
 
-        return frames;
+        if (previousShot != null)
+            this.total += previousShot.getPoints();
 
     }
 
-    private void computeTotalFrom(final List<Frame> frames) {
-
-        for (int i = 0; i < frames.size(); i++) {
-
-            final Frame frame = frames.get(i);
-            final Frame nextFrame = i < frames.size() - 1 ? frames.get(i + 1) : null;
-
-            final int strikeBonus = frame.endedByStrike() && nextFrame != null ? nextFrame.score() : 0;
-            final int spareBonus = frame.endedBySpare() && nextFrame != null ? nextFrame.firstShotPoints() : 0;
-
-            this.total += frame.score() + strikeBonus + spareBonus;
-
-        }
-
-        this.total += this.bonus;
-
+    private void updateTotal(final Frame previousFrame, final Frame frame) {
+        final int strikeBonus = previousFrame != null && previousFrame.endedByStrike() ? frame.score() : 0;
+        final int spareBonus = previousFrame != null && previousFrame.endedBySpare() ? frame.firstShotPoints() : 0;
+        this.total += frame.score() + strikeBonus + spareBonus;
     }
 
 }
