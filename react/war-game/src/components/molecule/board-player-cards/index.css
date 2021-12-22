@@ -1,0 +1,9 @@
+.board-player-cards {
+    display: flex;
+    flex-direction: row-reverse;
+}
+
+.board-player-cards img {
+    margin-left: -85px;
+    height: 130px;
+}
