@@ -1,13 +1,21 @@
 import Card from "./Card";
 
+interface PlayerInterface {
+    name: string;
+    cards?: Card[];
+    lastPlayedCard?: Card;
+}
+
 export default class Player {
 
     private readonly name: string;
     private readonly cards: Card[];
+    private readonly lastPlayedCard?: Card;
 
-    constructor(name: string) {
+    constructor({name, cards, lastPlayedCard}: PlayerInterface) {
         this.name = name;
-        this.cards = [];
+        this.cards = cards || [];
+        this.lastPlayedCard = lastPlayedCard;
     }
 
     getName(): string {
@@ -16,6 +24,14 @@ export default class Player {
 
     getCards(): Card[] {
         return this.cards;
+    }
+
+    getLastPlayedCard(): Card | undefined {
+        return this.lastPlayedCard;
+    }
+
+    hasNotPlayedYet(): boolean {
+        return !this.lastPlayedCard;
     }
 
     receive(card: Card): void {
@@ -27,10 +43,11 @@ export default class Player {
      *
      * "SHIFT" means REMOVING the last card from the top of the deck.
      */
-    play(): Card {
+    play(): Player {
         const card: Card | undefined = this.cards.shift();
         if (!card) throw new Error("The player cannot play since he has already lost.");
-        return card;
+        const lastPlayedCard = card;
+        return new Player({...this, lastPlayedCard});
     }
 
     /**

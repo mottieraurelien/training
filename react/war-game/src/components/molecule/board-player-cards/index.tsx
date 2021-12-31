@@ -5,19 +5,24 @@ import "./index.css";
 
 interface Props {
     player: Player;
+    setPlayer: Function;
+    canPlay: boolean;
 }
 
-export default function BoardPlayerCards({player}: Props) {
+export default function BoardPlayerCards({player, setPlayer, canPlay}: Props) {
 
     const name: string = player.getName();
     const cards: Card[] = player.getCards();
 
     const handleClick = () => {
-        // TODO : play the card and setPlayedCardPlayerOne or setPlayedCardPlayerTwo
-        const playedCard = cards && cards[0];
+        if (!canPlay) return;
+        const playerHasPlayed: Player = player.play();
+        setPlayer(playerHasPlayed);
     }
 
-    return <div className="board-player-cards clickable" onClick={handleClick}>
+    const styles: string = "board-player-cards " + (canPlay ? "clickable" : "no-pointer-events");
+
+    return <div className={styles} onClick={handleClick}>
         {cards && cards.length > 0 && cards.map((card, index) => {
             return <img key={name + "-" + index} src="/card.png" alt="Deck" title="Deck"/>;
         })}

@@ -17,8 +17,7 @@ export default class Game {
     private readonly playerOne: Player;
     private readonly playerTwo: Player;
     private readonly players: Player[];
-
-    private started: boolean;
+    private readonly started: boolean;
 
     constructor({playerOne, playerTwo, players, started}: GameInterface) {
         this.playerOne = playerOne;
@@ -60,7 +59,7 @@ export default class Game {
     battle(): void {
 
         // Both players will face each other :
-        const battle: Battle = new Battle(this.playerOne, this.playerTwo);
+        //const battle: Battle = new Battle(this.playerOne, this.playerTwo);
 
         // The first round can now start :
         // TODO

@@ -14,3 +14,7 @@ code {
 .clickable {
     cursor: pointer;
 }
+
+.no-pointer-events {
+    pointer-events: none;
+}

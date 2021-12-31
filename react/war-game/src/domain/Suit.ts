@@ -1,10 +1,10 @@
 enum Suit {
-    CLUB,
-    DIAMOND,
-    HEART,
-    SPADE
+    CLUBS,
+    DIAMONDS,
+    HEARTS,
+    SPADES
 }
 
-const suits: Suit[] = [Suit.CLUB, Suit.DIAMOND, Suit.HEART, Suit.SPADE];
+const suits: Suit[] = [Suit.CLUBS, Suit.DIAMONDS, Suit.HEARTS, Suit.SPADES];
 
 export {Suit, suits};

@@ -6,11 +6,13 @@ import "./index.css";
 
 interface Props {
     player: Player;
+    setPlayer: Function;
+    canPlay: boolean;
 }
 
-export default function BoardPlayer({player}: Props) {
+export default function BoardPlayer({player, setPlayer, canPlay}: Props) {
     return <div className="board-player">
         <BoardPlayerProfile player={player}/>
-        <BoardPlayerCards player={player}/>
+        <BoardPlayerCards player={player} setPlayer={setPlayer} canPlay={canPlay}/>
     </div>
 }
