@@ -14,7 +14,6 @@ public class MinStackInteger {
      * push = adding a new first integer to a linked list, the size of the linked list does not matter => 0(1).
      */
     public void push(final Integer item) {
-        if (item == null) throw new IllegalArgumentException("Cannot push any null integer in the stack.");
         if (this.min == null || item.compareTo(this.min) < 0) this.min = item;
         this.items.addFirst(item);
     }
@@ -23,6 +22,7 @@ public class MinStackInteger {
      * pop = removing the first item and potentially finding the new min item from an unsorted list => O(n).
      */
     public Integer pop() {
+        if (this.items.isEmpty()) return null;
         final Integer item = this.items.removeFirst();
         final boolean theRemovedItemWasOurMin = item.compareTo(this.min) == 0;
         if (theRemovedItemWasOurMin) this.findNewMinFromTheRemainingItems();
@@ -33,6 +33,7 @@ public class MinStackInteger {
      * top : just getting the first item from a linked list, the size of the linked list does not matter => 0(1).
      */
     public Integer top() {
+        if (this.items.isEmpty()) return null;
         return this.items.getFirst();
     }
 
@@ -48,6 +49,10 @@ public class MinStackInteger {
     }
 
     private void findNewMinFromTheRemainingItems() {
+        if (this.items.isEmpty()) {
+            this.min = null;
+            return;
+        }
         Integer currentMin = this.items.getFirst();
         for (final Integer current : this.items) if (current.compareTo(currentMin) < 0) currentMin = current;
         this.min = currentMin;
