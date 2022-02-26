@@ -57,7 +57,7 @@ export default class Player {
      * does not play the cards he just won... #cheater
      */
     win(cards: Card[]): void {
-        // unshift > to add at the beginning.
+        cards.forEach(card => this.cards.unshift(card));
     }
 
     getNumberOfCards(): number {

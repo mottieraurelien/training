@@ -1,9 +1,11 @@
 import React, {useState} from 'react';
 import Player from "../../../domain/Player";
 import BoardPlayer from "../../organism/board-player";
-import useEffectOnGame from "../../../hooks/useEffectOnGame";
 import BoardBattlefield from "../../organism/board-battlefield";
+import useEffectOnGame from "../../../hooks/useEffectOnGame";
 import useEffectOnPlayers from "../../../hooks/useEffectOnPlayers";
+import useEffectOnBattle from "../../../hooks/useEffectOnBattle";
+import useEffectOnQuickWinner from "../../../hooks/useEffectOnQuickWinner";
 import "./index.css";
 
 export default function Board() {
@@ -13,6 +15,8 @@ export default function Board() {
 
     const {game, setGame} = useEffectOnGame(playerOne, playerTwo);
     const {battle, setBattle} = useEffectOnPlayers(playerOne, playerTwo);
+    const {quickWinner, setQuickWinner} = useEffectOnBattle(battle, setBattle);
+    const {battleWinner, setBattleWinner} = useEffectOnQuickWinner(battle, quickWinner, setQuickWinner);
 
     return <div className="board">
         <BoardPlayer player={playerOne} setPlayer={setPlayerOne} canPlay={!battle}/>

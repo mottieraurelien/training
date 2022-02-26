@@ -37,8 +37,10 @@ export default class Card {
     /**
      * When comparing two cards, we only focus on their rank.
      */
-    equals(anotherCard: Card): boolean {
-        return this.rank !== anotherCard.rank;
+    isGreaterThan(anotherCard: Card): boolean {
+        const currentRank: number = this.rank;
+        const anotherRank: number = anotherCard.rank;
+        return currentRank > anotherRank;
     }
 
 }

@@ -19,18 +19,28 @@ export default class Battle {
         this.pot = pot || [];
     }
 
-    fight() {
+    getPot(): Card[] {
+        return this.pot;
+    }
 
-        // // During a round, both players play their first card.
-        // const cardFromPlayerOne: Card = this.playerOne.getLastPlayedCard();
-        // const cardFromPlayerTwo: Card = this.playerTwo.getLastPlayedCard();
-        //
-        // // Both players put their card in the pot :
-        // this.pot.push(cardFromPlayerOne);
-        // this.pot.push(cardFromPlayerTwo);
-        //
-        // // The battle may already have a quick winner :
-        // const winningRound: boolean = !cardFromPlayerOne.equals(cardFromPlayerTwo);
+    fight(): Player | undefined {
+
+        // During a round, both players play their first card.
+        const cardFromPlayerOne: Card | undefined = this.playerOne.getLastPlayedCard();
+        const cardFromPlayerTwo: Card | undefined = this.playerTwo.getLastPlayedCard();
+
+        // Checks that both players played :
+        if (!cardFromPlayerOne || !cardFromPlayerTwo) throw new Error("An error occurred : both players should have played.");
+
+        // Both players put their card in the pot :
+        this.pot.push(cardFromPlayerOne);
+        this.pot.push(cardFromPlayerTwo);
+
+        // The battle may already have a quick winner :
+        if (cardFromPlayerOne.isGreaterThan(cardFromPlayerTwo)) return this.playerOne;
+        if (cardFromPlayerTwo.isGreaterThan(cardFromPlayerOne)) return this.playerTwo;
+
+        // Otherwise, it means they played cards with the same rank, so a long battle needs to start now!
 
     }
 
